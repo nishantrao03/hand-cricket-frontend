@@ -1,0 +1,210 @@
+/* Full Screen Dark Game Theme */
+.container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 1rem;
+  background: radial-gradient(circle at bottom center, #112240 0%, #0a192f 40%, #020c1b 100%);
+  box-sizing: border-box;
+  font-family: 'Inter', -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Centered UI Card */
+.card {
+  background-color: rgba(16, 33, 54, 0.95);
+  width: 100%;
+  max-width: 420px;
+  padding: 2.5rem 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  border: 1px solid #233554;
+  box-sizing: border-box;
+  backdrop-filter: blur(10px);
+}
+
+/* Header Sections */
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #e6f1ff;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: 0.5px;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  color: #8892b0;
+  margin: 0;
+}
+
+/* Form Layout */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputField {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #233554;
+  border-radius: 8px;
+  background-color: #0a192f;
+  color: #e6f1ff;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.inputField:focus {
+  outline: none;
+  border-color: #64ffda; /* Neon game highlight */
+  box-shadow: 0 0 0 3px rgba(100, 255, 218, 0.15);
+}
+
+.inputField::placeholder {
+  color: #8892b0;
+}
+
+/* Error Message Styling */
+.error {
+  background-color: rgba(255, 107, 107, 0.1);
+  color: #ff6b6b;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  text-align: center;
+}
+
+/* Primary Login Button */
+.primaryButton {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0a192f;
+  background-color: #64ffda;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.primaryButton:hover:not(:disabled) {
+  background-color: #4cd8b8;
+  box-shadow: 0 0 15px rgba(100, 255, 218, 0.3);
+}
+
+.primaryButton:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.primaryButton:disabled {
+  background-color: #233554;
+  color: #8892b0;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Visual Divider */
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 1.5rem 0;
+  color: #8892b0;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #233554;
+}
+
+.divider span {
+  padding: 0 10px;
+}
+
+/* Google Sign-in Button */
+.googleButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.85rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e6f1ff;
+  background-color: transparent;
+  border: 1px solid #233554;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.googleButton:hover:not(:disabled) {
+  background-color: rgba(35, 53, 84, 0.5);
+  border-color: #8892b0;
+}
+
+.googleButton:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.googleButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.googleIcon {
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  flex-shrink: 0;
+}
+
+/* Signup Text and Link */
+.signupText {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #8892b0;
+  margin-top: 1.5rem;
+  margin-bottom: 0;
+}
+
+.signupLink {
+  color: #64ffda;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.signupLink:hover {
+  text-decoration: underline;
+  text-shadow: 0 0 8px rgba(100, 255, 218, 0.4);
+}

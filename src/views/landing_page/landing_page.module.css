@@ -1,0 +1,186 @@
+/* Full Screen Dark Game Theme */
+.container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 1rem;
+  background: radial-gradient(circle at bottom center, #112240 0%, #0a192f 40%, #020c1b 100%);
+  box-sizing: border-box;
+  font-family: 'Inter', -apple-system, sans-serif;
+  overflow: hidden; /* Prevents scrolling from decorative elements */
+}
+
+/* Background Pitch Decoration */
+.pitchDecoration {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 800px;
+  border: 2px solid rgba(100, 255, 218, 0.05);
+  border-radius: 10px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.pitchDecoration::before {
+  content: "";
+  position: absolute;
+  top: 10%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: rgba(100, 255, 218, 0.05);
+}
+
+.pitchDecoration::after {
+  content: "";
+  position: absolute;
+  bottom: 10%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: rgba(100, 255, 218, 0.05);
+}
+
+/* Decorative Scoreboard */
+.scoreBoardDeco {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem 2rem;
+  background-color: rgba(10, 25, 47, 0.5);
+  border: 1px solid #233554;
+  border-radius: 12px;
+  z-index: 0;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.scoreText {
+  color: #64ffda;
+  font-family: monospace;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.vsText {
+  color: #8892b0;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+/* Central Hero Card */
+.heroContent {
+  position: relative;
+  z-index: 1; /* Sits above the decorations */
+  text-align: center;
+  background-color: rgba(16, 33, 54, 0.4);
+  padding: 4rem 3rem;
+  border-radius: 24px;
+  border: 1px solid rgba(100, 255, 218, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(10px);
+  max-width: 600px;
+  width: 100%;
+}
+
+/* Cricket SVG Icon */
+.iconContainer {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.cricketIcon {
+  width: 64px;
+  height: 64px;
+  filter: drop-shadow(0 0 10px rgba(100, 255, 218, 0.2));
+}
+
+/* Main Typography */
+.title {
+  font-size: 4rem;
+  font-weight: 900;
+  color: #e6f1ff;
+  margin: 0 0 1rem 0;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 0 0 20px rgba(100, 255, 218, 0.2);
+}
+
+.tagline {
+  font-size: 1.15rem;
+  color: #8892b0;
+  margin: 0 0 3rem 0;
+  line-height: 1.6;
+}
+
+/* Call to Action Container */
+.actionContainer {
+  display: flex;
+  justify-content: center;
+}
+
+/* Primary Game-Styled Button */
+.primaryButton {
+  padding: 1.2rem 3.5rem;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #0a192f;
+  background-color: #64ffda;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(100, 255, 218, 0.2);
+}
+
+.primaryButton:hover {
+  background-color: #4cd8b8;
+  box-shadow: 0 0 25px rgba(100, 255, 218, 0.5);
+  transform: translateY(-3px);
+}
+
+.primaryButton:active {
+  transform: scale(0.98) translateY(0);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+  .title {
+    font-size: 2.5rem;
+  }
+  
+  .tagline {
+    font-size: 1rem;
+  }
+  
+  .heroContent {
+    padding: 3rem 1.5rem;
+  }
+  
+  .scoreBoardDeco {
+    top: 5%;
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+  }
+  
+  .scoreText {
+    font-size: 1rem;
+  }
+}
