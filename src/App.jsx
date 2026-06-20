@@ -33,6 +33,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LandingPage from './views/landing_page/landing_page.jsx';
 import Login from './views/auth/login/login.jsx';
 import Signup from './views/auth/signup/signup.jsx';
+import HomePage from './views/home_page/home_page.jsx';
 import './App.css';
 import ChatPage from "./views/chat_page.jsx";
 import { useAuth } from "./context/AuthContext";
@@ -105,27 +106,27 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} /> */}
         <Route
-          path="/chat"
+          path="/home"
           element={
-            isAuthenticated ? <ChatPage /> : <Navigate to="/"  />
+            isAuthenticated ? <HomePage /> : <Navigate to="/"  />
           }
         />
         <Route
           path="/"
           element={
-            (!isAuthenticated) ? <LandingPage /> : <Navigate to="/chat"  />
+            (!isAuthenticated) ? <LandingPage /> : <Navigate to="/home"  />
           }
         />
         <Route
           path="/login"
           element={
-            (!isAuthenticated) ? <Login /> : <Navigate to="/chat"  />
+            (!isAuthenticated) ? <Login /> : <Navigate to="/home"  />
           }
         />
         <Route
           path="/signup"
           element={
-            (!isAuthenticated) ? <Signup /> : <Navigate to="/chat"  />
+            (!isAuthenticated) ? <Signup /> : <Navigate to="/home"  />
           }
         />
       </Routes>

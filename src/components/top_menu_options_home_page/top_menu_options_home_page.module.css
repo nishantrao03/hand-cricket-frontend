@@ -1,0 +1,57 @@
+.menuContainer {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background-color: rgba(16, 33, 54, 0.95);
+  border: 1px solid #233554;
+  border-radius: 12px;
+  width: 200px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  z-index: 100;
+  overflow: hidden;
+  animation: slideDown 0.2s ease-out forwards;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.menuList {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.menuItem {
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e6f1ff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.menuItem:hover {
+  background-color: rgba(100, 255, 218, 0.1);
+  color: #64ffda;
+  padding-left: 2rem; /* Slight indentation effect on hover */
+}
+
+.divider {
+  height: 1px;
+  background-color: #233554;
+  margin: 0.5rem 0;
+}
+
+.logoutText {
+  color: #ff6b6b;
+}
+
+.logoutText:hover {
+  background-color: rgba(255, 107, 107, 0.1);
+  color: #ff8787;
+}

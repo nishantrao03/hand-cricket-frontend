@@ -12,12 +12,12 @@ const LandingPage = () => {
   return (
     <div className={styles.container}>
       {/* Decorative Game Elements */}
-      <div className={styles.pitchDecoration}></div>
+      {/* <div className={styles.pitchDecoration}></div>
       <div className={styles.scoreBoardDeco}>
         <span className={styles.scoreText}>P1: 45</span>
         <span className={styles.vsText}>VS</span>
         <span className={styles.scoreText}>P2: 32</span>
-      </div>
+      </div> */}
 
       {/* Main Landing Content */}
       <div className={styles.heroContent}>

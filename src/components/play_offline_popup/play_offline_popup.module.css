@@ -1,0 +1,219 @@
+/* Full Screen Overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(2, 12, 27, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+/* Modal Card */
+.popupCard {
+  background-color: rgba(16, 33, 54, 0.95);
+  width: 100%;
+  max-width: 450px;
+  border-radius: 16px;
+  border: 1px solid #233554;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(100, 255, 218, 0.05);
+  box-sizing: border-box;
+  animation: scaleIn 0.2s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+  overflow: hidden;
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Header & Close Button */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid rgba(100, 255, 218, 0.1);
+  background: rgba(10, 25, 47, 0.5);
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #e6f1ff;
+  margin: 0;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.closeBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.closeBtn:hover {
+  background-color: rgba(255, 107, 107, 0.1);
+}
+
+.closeIcon {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: #8892b0;
+  stroke-width: 2;
+  transition: stroke 0.2s ease;
+}
+
+.closeBtn:hover .closeIcon {
+  stroke: #ff6b6b;
+}
+
+/* Main Content Area */
+.content {
+  padding: 2rem;
+}
+
+.description {
+  font-size: 1rem;
+  color: #a8b2d1;
+  margin: 0 0 1.5rem 0;
+  line-height: 1.5;
+}
+
+/* Copy Link Bar Layout */
+.linkBar {
+  display: flex;
+  align-items: stretch;
+  background-color: #0a192f;
+  border: 1px solid #233554;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.linkBar:focus-within {
+  border-color: #64ffda;
+  box-shadow: 0 0 0 2px rgba(100, 255, 218, 0.15);
+}
+
+.linkInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #64ffda;
+  padding: 1rem 1.25rem;
+  font-size: 0.95rem;
+  font-family: monospace;
+  outline: none;
+  /* Prevent text selection highlighting ruining the aesthetic */
+  user-select: all; 
+}
+
+/* Action Button */
+.copyBtn {
+  background-color: #233554;
+  border: none;
+  border-left: 1px solid #112240;
+  padding: 0 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.copyBtn:hover {
+  background-color: #64ffda;
+}
+
+.copyBtn:hover .actionIcon {
+  stroke: #0a192f;
+}
+
+.copyBtn:active {
+  background-color: #4cd8b8;
+}
+
+.actionIcon {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: #e6f1ff;
+  stroke-width: 2;
+  transition: stroke 0.2s ease;
+}
+
+/* Success State Colors */
+.copiedState {
+  background-color: #64ffda;
+}
+
+.copiedState .actionIcon {
+  stroke: #0a192f;
+}
+
+/* Feedback wrapper to prevent layout shift */
+.feedbackWrapper {
+  height: 20px;
+  margin-top: 0.75rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.feedbackText {
+  color: #64ffda;
+  font-size: 0.85rem;
+  font-weight: 600;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Footer & Join Button Alignment */
+.actionFooter {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(100, 255, 218, 0.1);
+}
+
+.joinButton {
+  padding: 0.85rem 2.5rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0a192f;
+  background-color: #64ffda;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.2s ease;
+}
+
+.joinButton:hover {
+  background-color: #4cd8b8;
+  box-shadow: 0 0 15px rgba(100, 255, 218, 0.3);
+  transform: translateY(-2px);
+}
+
+.joinButton:active {
+  transform: translateY(1px);
+}

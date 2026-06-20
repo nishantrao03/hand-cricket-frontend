@@ -1,0 +1,85 @@
+/* Core Game Interactive Panel */
+.gameButton {
+  position: relative;
+  width: 100%;
+  padding: 1.25rem 2rem;
+  background: linear-gradient(135deg, rgba(23, 42, 69, 0.7) 0%, rgba(16, 33, 54, 0.5) 100%);
+  border: 1px solid rgba(100, 255, 218, 0.2);
+  border-radius: 8px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  padding-left: 2.5rem;
+}
+
+/* Vertical Left Edge Highlight */
+.accentLine {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: #64ffda;
+  opacity: 0.5;
+  transition: all 0.3s ease;
+}
+
+/* Typography Customization */
+.buttonText {
+  position: relative;
+  z-index: 2;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ccd6f6;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Inner Background Light Mask */
+.glowEffect {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150%;
+  height: 150%;
+  background: radial-gradient(circle, rgba(100, 255, 218, 0.1) 0%, transparent 70%);
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.5s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Hover and Focus Interactive Tracking */
+.gameButton:hover {
+  border-color: rgba(100, 255, 218, 0.6);
+  background: linear-gradient(135deg, rgba(23, 42, 69, 0.9) 0%, rgba(16, 33, 54, 0.7) 100%);
+  box-shadow: 0 0 20px rgba(100, 255, 218, 0.15), inset 0 0 10px rgba(100, 255, 218, 0.05);
+  transform: translateY(-2px);
+  padding-left: 2.75rem;
+}
+
+.gameButton:hover .buttonText {
+  color: #64ffda;
+  text-shadow: 0 0 8px rgba(100, 255, 218, 0.3);
+}
+
+.gameButton:hover .accentLine {
+  opacity: 1;
+  height: 100%;
+  box-shadow: 0 0 12px #64ffda;
+}
+
+.gameButton:hover .glowEffect {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Click Compress Feedback */
+.gameButton:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}

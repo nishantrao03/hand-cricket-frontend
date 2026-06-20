@@ -157,6 +157,7 @@ export function AuthProvider({ children }) {
     const storedId = localStorage.getItem("userId");
     return storedId ? storedId : null;
   });
+  const [userName, setUserName] = useState(null);
   // const [userId, setUserId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -472,6 +473,8 @@ export function AuthProvider({ children }) {
     login,
     signup,
     logout,
+    userName,
+    setUserName,
     callBackendLogin,
     checkAccessToken,
     checkRefreshToken,

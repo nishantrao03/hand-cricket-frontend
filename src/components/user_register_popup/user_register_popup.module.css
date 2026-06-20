@@ -1,0 +1,177 @@
+/* Full Screen Overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(2, 12, 27, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it stays above everything */
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+/* Main Modal Card */
+.popupCard {
+  background-color: rgba(16, 33, 54, 0.95);
+  width: 100%;
+  max-width: 500px;
+  padding: 2.5rem;
+  border-radius: 16px;
+  border: 1px solid #233554;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(100, 255, 218, 0.05);
+  box-sizing: border-box;
+  animation: slideUp 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Header Text */
+.header {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(100, 255, 218, 0.1);
+  padding-bottom: 1rem;
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #e6f1ff;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  color: #8892b0;
+  margin: 0;
+}
+
+.errorBox {
+  background-color: rgba(255, 107, 107, 0.1);
+  color: #ff6b6b;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(255, 107, 107, 0.3);
+  text-align: center;
+}
+
+/* Form Layout */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.inputRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #a8b2d1;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.requiredAsterisk {
+  color: #64ffda;
+  margin-left: 2px;
+}
+
+.inputField {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  font-size: 0.95rem;
+  border: 1px solid #233554;
+  border-radius: 8px;
+  background-color: #0a192f;
+  color: #e6f1ff;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+
+.inputField:focus {
+  outline: none;
+  border-color: #64ffda;
+  box-shadow: 0 0 0 2px rgba(100, 255, 218, 0.15);
+}
+
+.inputField::placeholder {
+  color: #495670;
+}
+
+.textArea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Footer & Button Alignment */
+.actionFooter {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(100, 255, 218, 0.1);
+}
+
+.submitButton {
+  padding: 0.85rem 2rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0a192f;
+  background-color: #64ffda;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.2s ease;
+}
+
+.submitButton:hover:not(:disabled) {
+  background-color: #4cd8b8;
+  box-shadow: 0 0 15px rgba(100, 255, 218, 0.3);
+  transform: translateY(-2px);
+}
+
+.submitButton:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.submitButton:disabled {
+  background-color: #233554;
+  color: #8892b0;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+  .inputRow {
+    grid-template-columns: 1fr;
+  }
+  
+  .popupCard {
+    padding: 1.5rem;
+  }
+}
