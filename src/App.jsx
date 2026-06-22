@@ -37,6 +37,7 @@ import HomePage from './views/home_page/home_page.jsx';
 import './App.css';
 import ChatPage from "./views/chat_page.jsx";
 import { useAuth } from "./context/AuthContext";
+import MatchPage from './views/match_page/match_page.jsx';
 import { useEffect } from "react";
 
 function App() {
@@ -127,6 +128,13 @@ function App() {
           path="/signup"
           element={
             (!isAuthenticated) ? <Signup /> : <Navigate to="/home"  />
+          }
+          
+        />
+        <Route
+          path="/match/:matchId"
+          element={
+            isAuthenticated ? <MatchPage /> : <LandingPage />
           }
         />
       </Routes>

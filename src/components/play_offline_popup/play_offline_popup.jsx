@@ -3,10 +3,45 @@ import styles from './play_offline_popup.module.css';
 
 const PlayOfflinePopup = ({ matchId, onClose }) => {
   const [copied, setCopied] = useState(false);
+  const [isGenerated, setIsGenerated] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [error, setError] = useState(null);
+  const [overs, setOvers] = useState(5);
+  const [wickets, setWickets] = useState(10);
   
   /* Fallback to window.location.origin if VITE_FRONTEND_URL is not set */
   const FRONTEND_URL = import.meta.env.VITE_FRONTEND_URL || window.location.origin;
   const matchLink = `${FRONTEND_URL}/match/${matchId}`;
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+  const handleGenerateLink = async () => {
+    setIsGenerating(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/create-match-invitation`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          id: matchId,
+          overs: parseInt(overs),
+          wickets: parseInt(wickets)
+        })
+      });
+      const data = await response.json();
+      
+      if (data.success !== false) {
+        setIsGenerated(true);
+      } else {
+        setError(data.error || "Failed to generate match link.");
+      }
+    } catch (err) {
+      console.error("Error generating match:", err);
+      setError("Network error occurred.");
+    } finally {
+      setIsGenerating(false);
+    }
+  };
 
   const handleCopy = async () => {
     try {
@@ -36,43 +71,77 @@ const PlayOfflinePopup = ({ matchId, onClose }) => {
         {/* Main Content */}
         <div className={styles.content}>
           <p className={styles.description}>
-            Share the link below with whoever you want to play against.
+            {isGenerated 
+              ? "Share the link below with whoever you want to play against." 
+              : "Generate a secure private link to challenge an opponent offline."}
           </p>
 
-          <div className={styles.linkBar}>
-            <input 
-              type="text" 
-              readOnly 
-              value={matchLink} 
-              className={styles.linkInput}
-            />
-            <button 
-              className={`${styles.copyBtn} ${copied ? styles.copiedState : ''}`} 
-              onClick={handleCopy}
-            >
-              {copied ? (
-                <svg viewBox="0 0 24 24" className={styles.actionIcon}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                </svg>
-              ) : (
-                <svg viewBox="0 0 24 24" className={styles.actionIcon}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                </svg>
-              )}
-            </button>
-          </div>
-          
-          {/* Subtle feedback text below the bar */}
-          <div className={styles.feedbackWrapper}>
-            {copied && <span className={styles.feedbackText}>Copied to clipboard!</span>}
-          </div>
+          {error && <div className={styles.errorBox}>{error}</div>}
 
-          {/* Footer Action Area */}
-          <div className={styles.actionFooter}>
-            <button className={styles.joinButton} onClick={() => {}}>
-              JOIN
-            </button>
-          </div>
+          {!isGenerated ? (
+            <>
+              <div className={styles.settingsRow}>
+                <div className={styles.inputGroup}>
+                  <label className={styles.label}>Overs</label>
+                  <select className={styles.selectField} value={overs} onChange={(e) => setOvers(e.target.value)}>
+                    {Array.from({ length: 16 }, (_, i) => i + 5).map((num) => (
+                      <option key={`over-${num}`} value={num}>{num} Overs</option>
+                    ))}
+                  </select>
+                </div>
+                <div className={styles.inputGroup}>
+                  <label className={styles.label}>Wickets</label>
+                  <select className={styles.selectField} value={wickets} onChange={(e) => setWickets(e.target.value)}>
+                    {Array.from({ length: 21 }, (_, i) => i + 1).map((num) => (
+                      <option key={`wicket-${num}`} value={num}>{num} Wickets</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div className={styles.generateContainer}>
+                <button className={styles.generateButton} onClick={handleGenerateLink} disabled={isGenerating}>
+                  {isGenerating ? "Generating..." : "Generate Invite Link"}
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className={styles.linkBar}>
+                <input 
+                  type="text" 
+                  readOnly 
+                  value={matchLink} 
+                  className={styles.linkInput}
+                />
+                <button 
+                  className={`${styles.copyBtn} ${copied ? styles.copiedState : ''}`} 
+                  onClick={handleCopy}
+                >
+                  {copied ? (
+                    <svg viewBox="0 0 24 24" className={styles.actionIcon}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  ) : (
+                    <svg viewBox="0 0 24 24" className={styles.actionIcon}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                  )}
+                </button>
+              </div>
+              
+              {/* Subtle feedback text below the bar */}
+              <div className={styles.feedbackWrapper}>
+                {copied && <span className={styles.feedbackText}>Copied to clipboard!</span>}
+              </div>
+
+              {/* Footer Action Area */}
+              <div className={styles.actionFooter}>
+                <button className={styles.joinButton} onClick={() => {}}>
+                  JOIN
+                </button>
+              </div>
+            </>
+          )}
         </div>
 
       </div>

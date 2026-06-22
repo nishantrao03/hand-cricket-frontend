@@ -1,0 +1,111 @@
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(2, 12, 27, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.card {
+  background-color: rgba(16, 33, 54, 0.95);
+  width: 90%;
+  max-width: 400px;
+  padding: 2.5rem 2rem;
+  border-radius: 16px;
+  border: 1px solid #233554;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(100, 255, 218, 0.05);
+  box-sizing: border-box;
+  text-align: center;
+  animation: popIn 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.iconWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.icon {
+  width: 48px;
+  height: 48px;
+  fill: none;
+  stroke: #64ffda;
+  stroke-width: 1.5;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #e6f1ff;
+  margin: 0 0 0.5rem 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: #8892b0;
+  margin: 0 0 2rem 0;
+}
+
+.targetBox {
+  background: rgba(10, 25, 47, 0.6);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.targetLabel {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #f59e0b;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.targetValue {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #e6f1ff;
+  line-height: 1;
+}
+
+.primaryButton {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0a192f;
+  background-color: #64ffda;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  transition: all 0.2s ease;
+}
+
+.primaryButton:hover {
+  background-color: #4cd8b8;
+  box-shadow: 0 0 20px rgba(100, 255, 218, 0.4);
+  transform: translateY(-2px);
+}
+
+.primaryButton:active {
+  transform: translateY(1px);
+}
