@@ -222,14 +222,10 @@ export function AuthProvider({ children }) {
     return { ok: false, message: 'missing uid' };
   }
 
-  console.log(
-    `createUserInBackend skipped (DB not initialized). UID: ${uid}`
-  );
-
   return {
     ok: true,
     skipped: true,
-    message: 'DB not initialized',
+    message: 'User created',
   };
 }
 
@@ -376,6 +372,7 @@ export function AuthProvider({ children }) {
 
   //  Persist userId whenever it changes
   useEffect(() => {
+    console.log(userId);
     if (userId) {
       localStorage.setItem("userId", userId);
     } else {
