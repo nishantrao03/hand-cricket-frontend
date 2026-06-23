@@ -5,6 +5,7 @@ import TopMenuOptions from '../../components/top_menu_options_home_page/top_menu
 import { useAuth } from '../../context/AuthContext.jsx';
 import UserRegisterPopup from '../../components/user_register_popup/user_register_popup.jsx';
 import PlayOfflinePopup from '../../components/play_offline_popup/play_offline_popup.jsx';
+import { fetchWithAuth } from '../../utils/fetchWithAuth.js';
 
 const HomePage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,7 +25,12 @@ const HomePage = () => {
 
     const fetchUserData = async () => {
       try {
-        const response = await fetch(`${BACKEND_URL}/api/fetch-user?id=${userId}`);
+        const response = await fetchWithAuth(
+  `${BACKEND_URL}/api/fetch-user`,
+  {
+    credentials: 'include'
+  }
+);
         const data = await response.json();
         console.log("Fetched User Data:", data);
 

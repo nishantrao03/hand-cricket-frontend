@@ -18,10 +18,9 @@ const Login = () => {
       setError("");
       setLoading(true);
 
-      console.log(email);
-      console.log(password);
-
       await login(email, password);
+
+      const user = auth.currentUser;
 
       // Get Firebase ID token for the logged-in user
       const firebaseToken = await auth.currentUser.getIdToken();
@@ -29,7 +28,8 @@ const Login = () => {
       // Call the backend /login route with the Firebase token
       await callBackendLogin(firebaseToken);
       
-      setUserId(auth.currentUser.uid);
+      console.log(user.uid);
+      setUserId(user.uid);
       
       console.log("User ID set in context:", auth.currentUser.uid);
       console.log("Email/Password login successful, navigating to /chat");

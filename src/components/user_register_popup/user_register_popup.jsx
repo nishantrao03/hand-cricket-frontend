@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from './user_register_popup.module.css';
 import { useAuth } from '../../context/AuthContext.jsx';
+import { fetchWithAuth } from '../../utils/fetchWithAuth.js';
 
 const UserRegisterPopup = ({ userId, onSuccess }) => {
   const [formData, setFormData] = useState({
@@ -36,7 +37,7 @@ const UserRegisterPopup = ({ userId, onSuccess }) => {
 
     try {
         console.log(formData.username);
-      const response = await fetch(`${BACKEND_URL}/api/create-user`, {
+      const response = await fetchWithAuth(`${BACKEND_URL}/api/create-user`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

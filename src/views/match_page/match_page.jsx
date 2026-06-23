@@ -26,6 +26,8 @@ import MatchAbandonedPopup from '../../components/match/popups/match_abandoned_p
 import { useMatch } from '../../context/MatchContext.jsx';
 import { useAuth } from '../../context/AuthContext.jsx';
 
+import { fetchWithAuth } from '../../utils/fetchWithAuth.js';
+
 console.log(useMatch);
 
 const MatchPage = () => {
@@ -104,7 +106,7 @@ const MatchPage = () => {
 
     const fetchMatchData = async () => {
       try {
-        const response = await fetch(`${BACKEND_URL}/api/fetch-match-invitation`, {
+        const response = await fetchWithAuth(`${BACKEND_URL}/api/fetch-match-invitation`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

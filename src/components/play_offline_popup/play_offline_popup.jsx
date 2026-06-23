@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './play_offline_popup.module.css';
+import { fetchWithAuth } from '../../utils/fetchWithAuth.js';
 
 const PlayOfflinePopup = ({ matchId, onClose }) => {
   const [copied, setCopied] = useState(false);
@@ -19,18 +20,26 @@ const PlayOfflinePopup = ({ matchId, onClose }) => {
     setError(null);
 
     try {
-      const response = await fetch(`${BACKEND_URL}/api/create-match-invitation`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          id: matchId,
-          overs: parseInt(overs),
-          wickets: parseInt(wickets)
-        })
-      });
+      const response = await fetchWithAuth(
+  `${BACKEND_URL}/api/create-match-invitation`,
+  {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    credentials: 'include',
+    body: JSON.stringify({
+      id: matchId,
+      overs: parseInt(overs),
+      wickets: parseInt(wickets)
+    })
+  }
+);
       const data = await response.json();
       
-      if (data.success !== false) {
+      console.log(data);
+
+      if (data.success == true) {
         setIsGenerated(true);
       } else {
         setError(data.error || "Failed to generate match link.");
