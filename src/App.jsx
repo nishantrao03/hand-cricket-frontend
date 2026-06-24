@@ -38,6 +38,8 @@ import './App.css';
 import ChatPage from "./views/chat_page.jsx";
 import { useAuth } from "./context/AuthContext";
 import MatchPage from './views/match_page/match_page.jsx';
+import MatchHistory from './views/match_history/match_history.jsx';
+import MyFriends from './views/my_friends/my_friends.jsx';
 import { useEffect } from "react";
 
 function App() {
@@ -137,7 +139,20 @@ function App() {
             isAuthenticated ? <MatchPage /> : <LandingPage />
           }
         />
+        <Route
+          path="/matchhistory"
+          element={
+            isAuthenticated ? <MatchHistory /> : <LandingPage />
+          }
+        />
+        <Route
+          path="/friends"
+          element={
+            isAuthenticated ? <MyFriends /> : <LandingPage />
+          }
+        />
       </Routes>
+      
     </BrowserRouter>
   );
 }

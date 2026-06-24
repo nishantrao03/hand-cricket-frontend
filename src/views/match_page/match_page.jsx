@@ -28,6 +28,8 @@ import { useAuth } from '../../context/AuthContext.jsx';
 
 import { fetchWithAuth } from '../../utils/fetchWithAuth.js';
 
+import { createAuthenticatedSocket } from "../../utils/socketWithAuth";
+
 console.log(useMatch);
 
 const MatchPage = () => {
@@ -501,13 +503,7 @@ const handleStartSecondInnings = () => {
 
     setPlayerId(userId);
 
-    const newSocket =
-        io(
-            BACKEND_URL,
-            {
-                transports: ["websocket"]
-            }
-        );
+    const newSocket = createAuthenticatedSocket(BACKEND_URL);
 
     newSocket.on(
         "match-ready",

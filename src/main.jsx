@@ -8,21 +8,20 @@ import App from './App.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
 import { MatchProvider } from './context/MatchContext.jsx';
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+const queryClient = new QueryClient();
+
 createRoot(
     document.getElementById('root')
 ).render(
-
     <StrictMode>
-
         <AuthProvider>
-
-            <MatchProvider>
-
-                <App />
-
-            </MatchProvider>
-
+            <QueryClientProvider client={queryClient}>
+                <MatchProvider>
+                    <App />
+                </MatchProvider>
+            </QueryClientProvider>
         </AuthProvider>
-
     </StrictMode>
 );

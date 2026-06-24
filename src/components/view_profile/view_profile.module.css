@@ -1,0 +1,174 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background: rgba(2, 12, 27, 0.72);
+  backdrop-filter: blur(8px);
+}
+
+.modal {
+  width: 100%;
+  max-width: 560px;
+  border-radius: 24px;
+  border: 1px solid rgba(35, 53, 84, 0.95);
+  background: linear-gradient(180deg, rgba(16, 33, 54, 0.96), rgba(10, 25, 47, 0.98));
+  box-shadow: 0 24px 60px rgba(2, 12, 27, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.4rem 1.5rem 1rem;
+  border-bottom: 1px solid rgba(35, 53, 84, 0.9);
+}
+
+.eyebrow {
+  margin: 0 0 0.35rem;
+  color: #8892b0;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0;
+  color: #64ffda;
+  font-size: 1.8rem;
+  font-weight: 800;
+  line-height: 1.1;
+  word-break: break-word;
+}
+
+.closeButton {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(35, 53, 84, 1);
+  border-radius: 12px;
+  background: rgba(17, 34, 64, 0.82);
+  color: #d9e4f2;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.closeButton:hover {
+  transform: translateY(-1px);
+  border-color: rgba(100, 255, 218, 0.35);
+  color: #ffffff;
+}
+
+.content {
+  padding: 1.5rem;
+}
+
+.profileCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.statRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.05rem;
+  border-radius: 16px;
+  border: 1px solid rgba(35, 53, 84, 0.9);
+  background: rgba(7, 20, 38, 0.42);
+}
+
+.statLabel {
+  color: #8ea3bd;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.statValue {
+  color: #e6f1ff;
+  font-size: 1rem;
+  font-weight: 800;
+  text-align: right;
+  word-break: break-word;
+}
+
+.stateBlock {
+  min-height: 260px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1.5rem;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 4px solid rgba(100, 255, 218, 0.12);
+  border-left-color: #64ffda;
+  animation: spin 0.9s linear infinite;
+}
+
+.stateText {
+  margin: 0;
+  color: #9fb3c8;
+  font-size: 1rem;
+}
+
+.errorText {
+  margin: 0;
+  color: #ff9b9b;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 640px) {
+  .overlay {
+    padding: 1rem;
+  }
+
+  .modal {
+    border-radius: 20px;
+  }
+
+  .header {
+    padding: 1.2rem 1.1rem 0.95rem;
+  }
+
+  .title {
+    font-size: 1.45rem;
+  }
+
+  .content {
+    padding: 1.1rem;
+  }
+
+  .statRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+
+  .statValue {
+    text-align: left;
+  }
+}
