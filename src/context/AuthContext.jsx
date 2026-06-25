@@ -174,6 +174,7 @@ export function AuthProvider({ children }) {
 
   function logout() {
     localStorage.removeItem("userId");
+    setUserId(null);
     return signOut(auth);
   }
 
@@ -354,14 +355,11 @@ export function AuthProvider({ children }) {
 //   return unsubscribe;
 // }, []);
 
+  // Observer for Firebase session loss
   useEffect(() => {
-    // Subscribe to Firebase auth changes
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // User is signed in — set the userId
-        setUserId(user.uid);
-      } else {
-        // User is signed out or deleted — clear userId
+      if (!user) {
+        // If Firebase state becomes null externally, clear local state
         setUserId(null);
       }
     });

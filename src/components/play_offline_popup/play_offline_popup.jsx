@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from './play_offline_popup.module.css';
 import { fetchWithAuth } from '../../utils/fetchWithAuth.js';
+import { useNavigate } from 'react-router-dom';
 
 const PlayOfflinePopup = ({ matchId, onClose }) => {
   const [copied, setCopied] = useState(false);
@@ -10,6 +11,8 @@ const PlayOfflinePopup = ({ matchId, onClose }) => {
   const [overs, setOvers] = useState(5);
   const [wickets, setWickets] = useState(10);
   
+  const navigate = useNavigate();
+
   /* Fallback to window.location.origin if VITE_FRONTEND_URL is not set */
   const FRONTEND_URL = import.meta.env.VITE_FRONTEND_URL || window.location.origin;
   const matchLink = `${FRONTEND_URL}/match/${matchId}`;
@@ -21,20 +24,20 @@ const PlayOfflinePopup = ({ matchId, onClose }) => {
 
     try {
       const response = await fetchWithAuth(
-  `${BACKEND_URL}/api/create-match-invitation`,
-  {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    credentials: 'include',
-    body: JSON.stringify({
-      id: matchId,
-      overs: parseInt(overs),
-      wickets: parseInt(wickets)
-    })
-  }
-);
+        `${BACKEND_URL}/api/create-match-invitation`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            id: matchId,
+            overs: parseInt(overs),
+            wickets: parseInt(wickets)
+          })
+        }
+      );
       const data = await response.json();
       
       console.log(data);
@@ -145,7 +148,7 @@ const PlayOfflinePopup = ({ matchId, onClose }) => {
 
               {/* Footer Action Area */}
               <div className={styles.actionFooter}>
-                <button className={styles.joinButton} onClick={() => {}}>
+                <button className={styles.joinButton} onClick={() => navigate(`/match/${matchId}`)}>
                   JOIN
                 </button>
               </div>

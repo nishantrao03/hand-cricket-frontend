@@ -18,14 +18,16 @@ const Signup = () => {
         setError("");
         setLoading(true);
         await signup(email, password);
+
+        const user = auth.currentUser;
   
         // Get Firebase ID token for the logged-in user
         const firebaseToken = await auth.currentUser.getIdToken();
   
         // Call the backend /login route with the Firebase token
         await callBackendLogin(firebaseToken);
-        setUserId(auth.currentUser.uid);
-        await createUserInBackend(auth.currentUser.uid);
+        setUserId(user.uid);
+        //await createUserInBackend(auth.currentUser.uid);
         //navigate("/chat");
       } catch (e) {
         setError("Failed to create an account: " + e.message);
@@ -110,8 +112,8 @@ const Signup = () => {
           </button>
   
           <p className={styles.signupText}>
-            Don't have an account?{" "}
-            <span onClick={() => navigate("/login")} className={styles.signupLink}>Create one.</span>
+            Already have ab account?{" "}
+            <span onClick={() => navigate("/login")} className={styles.signupLink}>Sign Up Here.</span>
           </p>
         </div>
       </div>

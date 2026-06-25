@@ -1,22 +1,18 @@
 import React from 'react';
 import styles from './top_menu_options_home_page.module.css';
 
-const TopMenuOptions = () => {
-  const handleOptionClick = (optionName) => {
-    console.log(`${optionName} clicked`);
-  };
-
+const TopMenuOptions = ({ onOptionClick }) => {
   return (
     <div className={styles.menuContainer}>
       <ul className={styles.menuList}>
-        <li className={styles.menuItem} onClick={() => handleOptionClick('My Profile')}>
+        <li className={styles.menuItem} onClick={() => onOptionClick('My Profile')}>
           My Profile
         </li>
-        <li className={styles.menuItem} onClick={() => handleOptionClick('My Friends')}>
-          My Friends
+        <li className={styles.menuItem} onClick={() => onOptionClick('My Friend Requests')}>
+          My Friend Requests
         </li>
         <div className={styles.divider}></div>
-        <li className={`${styles.menuItem} ${styles.logoutText}`} onClick={() => handleOptionClick('Logout')}>
+        <li className={`${styles.menuItem} ${styles.logoutText}`} onClick={() => onOptionClick('Logout')}>
           Logout
         </li>
       </ul>

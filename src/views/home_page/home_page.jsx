@@ -6,15 +6,24 @@ import { useAuth } from '../../context/AuthContext.jsx';
 import UserRegisterPopup from '../../components/user_register_popup/user_register_popup.jsx';
 import PlayOfflinePopup from '../../components/play_offline_popup/play_offline_popup.jsx';
 import { fetchWithAuth } from '../../utils/fetchWithAuth.js';
+import { useNavigate } from 'react-router-dom';
+import FriendRequestsPopup from '../../components/friend_requests_popup/friend_requests_popup.jsx';
+import MyProfilePopup from '../../components/my_profile/my_profile.jsx';
 
 const HomePage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showRegisterPopup, setShowRegisterPopup] = useState(false);
   const [isDataLoading, setIsDataLoading] = useState(true);
   const [showOfflinePopup, setShowOfflinePopup] = useState(false);
+  const [showFriendRequestsPopup, setShowFriendRequestsPopup] = useState(false);
+  const [showProfilePopup, setShowProfilePopup] = useState(false);
+  const [userData, setUserData] = useState(null);
   const [matchId, setMatchId] = useState('');
 
-  const { userId, setUserName, userName } = useAuth();
+  /* Initialize the navigation hook for routing */
+  const navigate = useNavigate();
+
+  const { userId, setUserName, userName, handleLogout } = useAuth();
   
   /* Retrieve the backend base URL from environment variables */
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
@@ -26,17 +35,18 @@ const HomePage = () => {
     const fetchUserData = async () => {
       try {
         const response = await fetchWithAuth(
-  `${BACKEND_URL}/api/fetch-user`,
-  {
-    credentials: 'include'
-  }
-);
+          `${BACKEND_URL}/api/fetch-user`,
+          {
+            credentials: 'include'
+          }
+        );
         const data = await response.json();
         console.log("Fetched User Data:", data);
 
         /* Check if user exists or if registration is needed */
         if (data.success && data.data) {
           setUserName(data.data.username);
+          setUserData(data.data);
           console.log(userName);
         } else if (data.success === false && data.error === 'User not found') {
           setShowRegisterPopup(true);
@@ -57,11 +67,28 @@ const HomePage = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  /* Route user actions based on the clicked menu button */
   const handleMainMenuClick = (buttonName) => {
     console.log(`${buttonName} clicked`);
     if (buttonName === 'Play Offline') {
       setMatchId(crypto.randomUUID());
       setShowOfflinePopup(true);
+    } else if (buttonName === 'Match History') {
+      navigate('/matchhistory');
+    } else if (buttonName === 'My Friends') {
+      navigate('/friends');
+    }
+  };
+
+  /* Handle actions from the top-right hamburger menu */
+  const handleMenuOptionClick = async (optionName) => {
+    setIsMenuOpen(false); // Close menu on selection
+    if (optionName === 'My Friend Requests') {
+      setShowFriendRequestsPopup(true);
+    } else if (optionName === 'My Profile') {
+      setShowProfilePopup(true);
+    } else if (optionName === 'Logout') {
+      await handleLogout();
     }
   };
 
@@ -80,7 +107,7 @@ const HomePage = () => {
           </button>
           
           {/* Dropdown Menu Component */}
-          {isMenuOpen && <TopMenuOptions />}
+          {isMenuOpen && <TopMenuOptions onOptionClick={handleMenuOptionClick} />}
         </div>
       </header>
 
@@ -92,6 +119,23 @@ const HomePage = () => {
         <PlayOfflinePopup 
           matchId={matchId} 
           onClose={() => setShowOfflinePopup(false)} 
+        />
+      )}
+
+      {/* Friend Requests Popup */}
+      {showFriendRequestsPopup && (
+        <FriendRequestsPopup onClose={() => setShowFriendRequestsPopup(false)} />
+      )}
+
+      {/* My Profile Popup */}
+      {showProfilePopup && userData && (
+        <MyProfilePopup 
+          user={userData} 
+          onClose={() => setShowProfilePopup(false)} 
+          onSuccess={() => {
+            setShowProfilePopup(false);
+            navigate(0); /* Refresh the route to force a re-fetch of user details */
+          }} 
         />
       )}
 

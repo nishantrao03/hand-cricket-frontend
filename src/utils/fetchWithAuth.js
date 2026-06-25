@@ -7,6 +7,7 @@
  * @param {object} options - Standard fetch options (method, headers, body, etc.).
  * @returns {Promise<Response>} - The final fetch response.
  */
+
 export const fetchWithAuth = async (url, options = {}) => {
     // Ensure credentials are included so the browser sends the HTTP-only cookies
     options.credentials = 'include';

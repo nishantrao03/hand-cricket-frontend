@@ -585,6 +585,35 @@ const handleStartSecondInnings = () => {
     );
 };
 
+  const handleAddFriend = async () => {
+    // Determine the opponent's ID based on the current user's ID
+    const opponentId = userId === player1Id ? player2Id : player1Id;
+
+    if (!opponentId) return;
+
+    try {
+      const response = await fetchWithAuth(`${BACKEND_URL}/api/send-request`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ senderId: userId, receiverId: opponentId })
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        alert("Friend request sent successfully!");
+      } else {
+        alert(result.error || "Failed to send friend request.");
+      }
+    } catch (err) {
+      console.error("Error sending friend request:", err);
+      alert("A network error occurred.");
+    }
+  };
+
   const handleReturnHome = () => {
     navigate('/home');
   };
@@ -630,13 +659,13 @@ const handleStartSecondInnings = () => {
           matchResult={matchResult} 
           scoreboard={scoreboard} 
           playerId={playerId} 
-          onAddFriend={() => {}} 
+          onAddFriend={handleAddFriend} 
           onReturnHome={handleLeaveMatch} 
         />
       ) : phase === "MATCH_ABANDONED" ? (
         <MatchAbandonedPopup 
           endReason={endReason} 
-          onAddFriend={() => {}} 
+          onAddFriend={handleAddFriend} 
           onReturnHome={handleLeaveMatch} 
         />
       ) : null}
