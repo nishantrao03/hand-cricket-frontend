@@ -1,0 +1,192 @@
+.page {
+  min-height: 100vh;
+  
+  /* Rips the container out of Vite's default constraints */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  
+  box-sizing: border-box;
+  background: #020c1b;
+  color: #a8b2d1;
+  font-family: inherit;
+  display: flex;
+  justify-content: center;
+  padding: 2rem 5%;
+}
+
+.contentShell {
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.navBar {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.backButton {
+  background: transparent;
+  color: #64ffda;
+  border: 1px solid rgba(100, 255, 218, 0.3);
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.backButton:hover {
+  background: rgba(100, 255, 218, 0.1);
+  border-color: #64ffda;
+}
+
+.headerBlock {
+  text-align: center;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(35, 53, 84, 0.5);
+}
+
+.eyebrow {
+  margin: 0 0 0.5rem;
+  color: #8892b0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0 0 0.8rem;
+  color: #64ffda;
+  font-size: 2.8rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  line-height: 1.1;
+}
+
+.subtitle {
+  margin: 0;
+  color: #a8b2d1;
+  font-size: 1.1rem;
+}
+
+.rulesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.ruleCard {
+  background: rgba(10, 25, 47, 0.6);
+  border: 1px solid rgba(35, 53, 84, 0.8);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
+}
+
+.sectionTitle {
+  margin: 0 0 1.25rem;
+  color: #e6f1ff;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.subHeading {
+  margin: 0 0 0.75rem;
+  color: #e6f1ff;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.ruleText {
+  margin: 0 0 1rem;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.ruleText:last-child {
+  margin-bottom: 0;
+}
+
+.ruleText strong {
+  color: #64ffda;
+}
+
+.ruleList {
+  margin: 0 0 1.5rem;
+  padding-left: 1.5rem;
+}
+
+.ruleList li {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.ruleList li strong {
+  color: #e6f1ff;
+}
+
+.highlightBox {
+  background: rgba(100, 255, 218, 0.05);
+  border-left: 4px solid #64ffda;
+  padding: 1.25rem;
+  border-radius: 0 8px 8px 0;
+  margin-top: 1.5rem;
+}
+
+.dataTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background: rgba(2, 12, 27, 0.4);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.dataTable th, .dataTable td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(35, 53, 84, 0.8);
+}
+
+.dataTable th {
+  background: rgba(17, 34, 64, 0.8);
+  color: #e6f1ff;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+}
+
+.dangerText {
+  color: #ff8f8f;
+  font-weight: 700;
+}
+
+.warningText {
+  color: #ffd166;
+  font-weight: 700;
+}
+
+.safeText {
+  color: #64ffda;
+  font-weight: 700;
+}
+
+.footerBlock {
+  text-align: center;
+  padding: 2rem 0;
+  border-top: 1px solid rgba(35, 53, 84, 0.5);
+}
+
+.footerText {
+  color: #8892b0;
+  font-size: 0.95rem;
+  font-style: italic;
+}

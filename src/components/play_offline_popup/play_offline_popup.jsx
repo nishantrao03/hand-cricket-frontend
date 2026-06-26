@@ -104,7 +104,7 @@ const PlayOfflinePopup = ({ matchId, onClose }) => {
                 <div className={styles.inputGroup}>
                   <label className={styles.label}>Wickets</label>
                   <select className={styles.selectField} value={wickets} onChange={(e) => setWickets(e.target.value)}>
-                    {Array.from({ length: 21 }, (_, i) => i + 1).map((num) => (
+                    {Array.from({ length: 30 }, (_, i) => i + 1).map((num) => (
                       <option key={`wicket-${num}`} value={num}>{num} Wickets</option>
                     ))}
                   </select>

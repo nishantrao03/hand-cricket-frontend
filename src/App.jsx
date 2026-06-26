@@ -35,11 +35,11 @@ import Login from './views/auth/login/login.jsx';
 import Signup from './views/auth/signup/signup.jsx';
 import HomePage from './views/home_page/home_page.jsx';
 import './App.css';
-import ChatPage from "./views/chat_page.jsx";
 import { useAuth } from "./context/AuthContext";
 import MatchPage from './views/match_page/match_page.jsx';
 import MatchHistory from './views/match_history/match_history.jsx';
 import MyFriends from './views/my_friends/my_friends.jsx';
+import MatchRules from './views/match_rules/match_rules.jsx';
 import { useEffect } from "react";
 
 function App() {
@@ -149,6 +149,12 @@ function App() {
           path="/friends"
           element={
             isAuthenticated ? <MyFriends /> : <LandingPage />
+          }
+        />
+        <Route
+          path="/matchrules"
+          element={
+            isAuthenticated ? <MatchRules /> : <LandingPage />
           }
         />
       </Routes>

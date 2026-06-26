@@ -78,6 +78,9 @@ const HomePage = () => {
     } else if (buttonName === 'My Friends') {
       navigate('/friends');
     }
+    else if (buttonName === 'Match Rules') {
+      navigate('/matchrules');
+    }
   };
 
   /* Handle actions from the top-right hamburger menu */
@@ -96,7 +99,7 @@ const HomePage = () => {
     <div className={styles.container}>
       {/* Top Header Section */}
       <header className={styles.header}>
-        <div className={styles.logo}>AutoM8 Pitch</div>
+        <div className={styles.logo}>Hand Cricket</div>
         
         <div className={styles.menuWrapper}>
           {userName && <span className={styles.greetingText}>{userName}</span>}
@@ -148,12 +151,12 @@ const HomePage = () => {
           </div>
         ) : (
           <div className={styles.buttonStack}>
-            <ButtonHomePage 
+            {/* <ButtonHomePage 
               label="Play Online" 
               onClick={() => handleMainMenuClick('Play Online')} 
-            />
+            /> */}
             <ButtonHomePage 
-              label="Play Offline (Local)" 
+              label="Play A Match" 
               onClick={() => handleMainMenuClick('Play Offline')} 
             />
             <ButtonHomePage 
