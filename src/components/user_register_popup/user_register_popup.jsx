@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styles from './user_register_popup.module.css';
 import { useAuth } from '../../context/AuthContext.jsx';
-import { fetchWithAuth } from '../../utils/fetchWithAuth.js';
 
 const UserRegisterPopup = ({ userId, onSuccess }) => {
   const [formData, setFormData] = useState({
@@ -11,7 +10,7 @@ const UserRegisterPopup = ({ userId, onSuccess }) => {
     discordUsername: '',
     bio: ''
   });
-  const { setUserName } = useAuth();
+  const { setUserName, fetchWithAuth } = useAuth();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 

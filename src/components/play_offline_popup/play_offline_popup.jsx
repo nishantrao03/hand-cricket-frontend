@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styles from './play_offline_popup.module.css';
-import { fetchWithAuth } from '../../utils/fetchWithAuth.js';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext.jsx';
+
 
 const PlayOfflinePopup = ({ matchId, onClose }) => {
   const [copied, setCopied] = useState(false);
@@ -10,6 +11,7 @@ const PlayOfflinePopup = ({ matchId, onClose }) => {
   const [error, setError] = useState(null);
   const [overs, setOvers] = useState(5);
   const [wickets, setWickets] = useState(10);
+  const { fetchWithAuth } = useAuth();
   
   const navigate = useNavigate();
 

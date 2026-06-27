@@ -1,12 +1,7 @@
 import React from 'react';
 import styles from './button_home_page.module.css';
-import { useAuth } from "../../context/AuthContext.jsx";
 
 const ButtonHomePage = ({ label, onClick }) => {
-
-    const { userName } = useAuth();
-
-console.log(userName);
   return (
     <button className={styles.gameButton} onClick={onClick}>
       {/* Sleek edge indicator that activates on hover */}

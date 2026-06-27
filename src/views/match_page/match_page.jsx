@@ -26,15 +26,11 @@ import MatchAbandonedPopup from '../../components/match/popups/match_abandoned_p
 import { useMatch } from '../../context/MatchContext.jsx';
 import { useAuth } from '../../context/AuthContext.jsx';
 
-import { fetchWithAuth } from '../../utils/fetchWithAuth.js';
-
-import { createAuthenticatedSocket } from "../../utils/socketWithAuth";
-
 console.log(useMatch);
 
 const MatchPage = () => {
   const { matchId } = useParams();
-  const { userId } = useAuth();
+  const { userId, fetchWithAuth, createAuthenticatedSocket } = useAuth();
   const navigate = useNavigate();
   //const [overs, setOvers] = useState("");
 
@@ -499,6 +495,10 @@ const handleStartSecondInnings = () => {
     );
 };
 
+    const handleMatchFull = () => {
+        setPhase("INVALID_MATCH");
+    };
+
     const handleJoinMatch = () => {
 
     setPlayerId(userId);
@@ -514,6 +514,11 @@ const handleStartSecondInnings = () => {
     "join-match-success",
     handleJoinMatchSuccess
 );
+
+    newSocket.on(
+    "match-full",
+    handleMatchFull
+);  
 
     newSocket.on(
     "toss-result",

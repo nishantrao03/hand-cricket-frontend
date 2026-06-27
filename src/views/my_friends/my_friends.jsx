@@ -2,12 +2,11 @@ import React, { useMemo, useState, useEffect } from "react";
 import styles from "./my_friends.module.css";
 import ViewProfile from "../../components/view_profile/view_profile";
 import { useAuth } from "../../context/AuthContext.jsx";
-import { fetchWithAuth } from "../../utils/fetchWithAuth";
 
 const getInitials = (name = "") => name.trim().split(/\s+/).slice(0, 2).map(part => part[0]?.toUpperCase() || "").join("") || "?";
 
 const MyFriends = () => {
-    const { userId, userName } = useAuth();
+    const { userId, userName, fetchWithAuth } = useAuth();
     const [search, setSearch] = useState("");
     const [friends, setFriends] = useState([]);
     const [profilesMap, setProfilesMap] = useState({});

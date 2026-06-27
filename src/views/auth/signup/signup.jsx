@@ -93,7 +93,7 @@ const Signup = () => {
             </div>
   
             <button disabled={loading} onClick={handleEmailSignup} className={styles.primaryButton}>
-              Login
+              Signup
             </button>
           </div>
   

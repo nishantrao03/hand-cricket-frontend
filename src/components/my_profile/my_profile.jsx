@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import styles from './my_profile.module.css';
-import { fetchWithAuth } from '../../utils/fetchWithAuth.js';
+import { useAuth } from '../../context/AuthContext.jsx';
 
 const MyProfilePopup = ({ user, onClose, onSuccess }) => {
     /* Initialize local state with existing user data */
+    const { fetchWithAuth } = useAuth();
+    console.log(user);
+
     const [formData, setFormData] = useState({
         country: user.country || '',
         favoriteTeam: user.favoriteTeam || '',

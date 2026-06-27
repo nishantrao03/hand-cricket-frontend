@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './friend_requests_popup.module.css';
-import { fetchWithAuth } from '../../utils/fetchWithAuth.js';
+import { useAuth } from '../../context/AuthContext.jsx';
 
 const getInitials = (name = "") => name.trim().substring(0, 2).toUpperCase() || "?";
 
@@ -9,6 +9,7 @@ const FriendRequestsPopup = ({ onClose }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [processingId, setProcessingId] = useState(null);
+    const { fetchWithAuth } = useAuth();
 
     const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 

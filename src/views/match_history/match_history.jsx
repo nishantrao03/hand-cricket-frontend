@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { fetchWithAuth } from "../../utils/fetchWithAuth";
 import styles from './match_history.module.css';
 import MatchDetails from '../../components/match_details/match_details';
+import { useAuth } from '../../context/AuthContext.jsx';
 
 const MatchHistory = () => {
     const [limit, setLimit] = useState(5);
     const [sortOrder, setSortOrder] = useState("desc");
     const [outcome, setOutcome] = useState("all");
     const [selectedMatch, setSelectedMatch] = useState(null);
+
+    const { fetchWithAuth } = useAuth();
 
     const fetchMatches = async ({ pageParam = null }) => {
         let url = `${import.meta.env.VITE_BACKEND_URL}/api/match-history?limit=${limit}&sortOrder=${sortOrder}&outcome=${outcome}`;

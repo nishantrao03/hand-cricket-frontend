@@ -144,6 +144,7 @@ import {
   signOut,
   onAuthStateChanged
 } from "firebase/auth";
+import { io } from "socket.io-client";
 
 const AuthContext = React.createContext();
 
@@ -460,6 +461,67 @@ export function AuthProvider({ children }) {
     }
   }
 
+  async function fetchWithAuth(url, options = {}) {
+    options.credentials = 'include';
+    let response = await fetch(url, options);
+
+    if (response.status === 401 || response.status === 403) {
+      console.log('Access token rejected. Attempting silent refresh sequence...');
+
+      try {
+        const refreshResponse = await fetch(`${BACKEND_URL}/refresh-token`, {
+          method: 'POST', 
+          credentials: 'include' 
+        });
+
+        if (refreshResponse.ok) {
+          console.log('Silent refresh successful. Retrying original request...');
+          response = await fetch(url, options);
+        } else {
+          console.error('Refresh token is invalid or expired. Session terminated.');
+          setUserId(null);
+          setIsAuthenticated(false);
+        }
+      } catch (error) {
+        console.error('Network failure during the silent refresh sequence:', error);
+      }
+    }
+    return response;
+  }
+
+  function createAuthenticatedSocket(backendUrl) {
+    const socket = io(backendUrl, {
+      transports: ["websocket"],
+      withCredentials: true
+    });
+
+    socket.on("connect_error", async (err) => {
+      if (err.message.includes("Authentication error")) {
+        console.log("Socket handshake rejected. Attempting silent refresh...");
+        socket.disconnect();
+
+        try {
+          const refreshResponse = await fetch(`${backendUrl}/refresh-token`, {
+            method: 'POST',
+            credentials: 'include'
+          });
+
+          if (refreshResponse.ok) {
+            console.log("Socket silent refresh successful. Retrying connection...");
+            socket.connect();
+          } else {
+            console.error("Refresh token is invalid or expired. Session terminated.");
+            setUserId(null);
+            setIsAuthenticated(false);
+          }
+        } catch (refreshErr) {
+          console.error("Network failure during the socket refresh sequence:", refreshErr);
+        }
+      }
+    });
+
+    return socket;
+  }
 
   const value = {
     userId,
@@ -476,6 +538,8 @@ export function AuthProvider({ children }) {
     setIsAuthenticated,
     createUserInBackend,
     handleLogout,
+    fetchWithAuth,
+    createAuthenticatedSocket
   };
 
   return (

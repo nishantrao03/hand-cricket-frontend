@@ -5,7 +5,6 @@ import TopMenuOptions from '../../components/top_menu_options_home_page/top_menu
 import { useAuth } from '../../context/AuthContext.jsx';
 import UserRegisterPopup from '../../components/user_register_popup/user_register_popup.jsx';
 import PlayOfflinePopup from '../../components/play_offline_popup/play_offline_popup.jsx';
-import { fetchWithAuth } from '../../utils/fetchWithAuth.js';
 import { useNavigate } from 'react-router-dom';
 import FriendRequestsPopup from '../../components/friend_requests_popup/friend_requests_popup.jsx';
 import MyProfilePopup from '../../components/my_profile/my_profile.jsx';
@@ -23,7 +22,7 @@ const HomePage = () => {
   /* Initialize the navigation hook for routing */
   const navigate = useNavigate();
 
-  const { userId, setUserName, userName, handleLogout } = useAuth();
+  const { userId, setUserName, userName, handleLogout, fetchWithAuth } = useAuth();
   
   /* Retrieve the backend base URL from environment variables */
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
