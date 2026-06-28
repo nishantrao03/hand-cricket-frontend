@@ -12,6 +12,7 @@ import SimulatingToss from '../../components/match/screens/simulating_toss/simul
 import TossResult from '../../components/match/screens/toss_result/toss_result';
 import RoleSelection from '../../components/match/screens/role_selection/role_selection';
 import WaitingForChoice from '../../components/match/screens/waiting_for_choice/waiting_for_choice';
+import MatchFull from '../../components/match/screens/match_full/match_full.jsx';
 
 import GameBoard from '../../components/match/game/game_board/game_board';
 import ScoreBoard from '../../components/match/game/score_board/score_board';
@@ -90,7 +91,9 @@ const MatchPage = () => {
     setMatchResult,
 
     endReason,
-    setEndReason
+    setEndReason,
+
+    restoreMatchContext
 
 } = useMatch();
 
@@ -300,157 +303,213 @@ const handleMoveReceived = (
     */
 };
 
-const handleBallResult = (
-    payload
-) => {
+// const handleBallResult = (
+//     payload
+// ) => {
 
-    console.log(
-        "Ball Result:",
-        payload
-    );
+//     console.log(
+//         "Ball Result:",
+//         payload
+//     );
 
-    setSelectedNumber(
-        null
-    );
+//     setSelectedNumber(
+//         null
+//     );
 
-    const ballData =
+//     const ballData =
 
-        payload.ballResult ||
-        payload;
+//         payload.ballResult ||
+//         payload;
 
-    setLastBall(
+//     setLastBall(
+//         ballData
+//     );
+
+//     setBallHistory(
+//         (prev) => [
+//             ...prev,
+//             ballData
+//         ]
+//     );
+
+//     setScoreboard(
+//         (prev) => {
+
+//             console.log(player1Id);
+//             if (
+//                 ballData.batterId ===
+//                 player1Id
+//             ) {
+
+//                 return {
+
+//                     ...prev,
+
+//                     player1: {
+
+//                         ...prev.player1,
+
+//                         score:
+//                             ballData.score,
+
+//                         wickets:
+//                             ballData.wickets,
+
+//                         balls:
+//                             ballData.balls
+//                     }
+//                 };
+//             }
+
+//             return {
+
+//                 ...prev,
+
+//                 player2: {
+
+//                     ...prev.player2,
+
+//                     score:
+//                         ballData.score,
+
+//                     wickets:
+//                         ballData.wickets,
+
+//                     balls:
+//                         ballData.balls
+//                 }
+//             };
+//         }
+//     );
+
+//     /*
+//         MATCH ENDED
+//     */
+
+//     if (
+//         payload.matchResult
+//     ) {
+
+//         setMatchResult(
+//             payload.matchResult
+//         );
+
+//         // setPhase(
+//         //     "MATCH_ENDED"
+//         // );
+
+//         return;
+//     }
+
+//     /*
+//         INNINGS ENDED
+//     */
+
+//     if (
+//         payload.inningsResult
+//     ) {
+
+//         setTarget(
+//             payload.inningsResult.target
+//         );
+
+//         setInnings(
+//             2
+//         );
+//         console.log(innings);
+
+//         setPhase(
+//             "INNINGS_BREAK"
+//         );
+
+//         return;
+//     }
+
+//     /*
+//         NORMAL BALL
+//     */
+
+//     setPhase(
+//         "PLAYING"
+//     );
+// };
+
+const handleBallResult = (payload) => {
+    console.log("Ball Result:", payload);
+
+    setSelectedNumber(null);
+
+    const ballData = payload.ballResult || payload;
+
+    setLastBall(ballData);
+
+    setBallHistory((prev) => [
+        ...prev,
         ballData
-    );
+    ]);
 
-    setBallHistory(
-        (prev) => [
+    setScoreboard((prev) => {
+        // Dynamically select innings1 or innings2 based on the backend data
+        const inningsKey = ballData.innings === 1 ? 'innings1' : 'innings2';
+
+        return {
             ...prev,
-            ballData
-        ]
-    );
-
-    setScoreboard(
-        (prev) => {
-
-            console.log(player1Id);
-            if (
-                ballData.batterId ===
-                player1Id
-            ) {
-
-                return {
-
-                    ...prev,
-
-                    player1: {
-
-                        ...prev.player1,
-
-                        score:
-                            ballData.score,
-
-                        wickets:
-                            ballData.wickets,
-
-                        balls:
-                            ballData.balls
-                    }
-                };
+            [inningsKey]: {
+                ...prev[inningsKey],
+                score: ballData.score,
+                wickets: ballData.wickets,
+                balls: ballData.balls
             }
-
-            return {
-
-                ...prev,
-
-                player2: {
-
-                    ...prev.player2,
-
-                    score:
-                        ballData.score,
-
-                    wickets:
-                        ballData.wickets,
-
-                    balls:
-                        ballData.balls
-                }
-            };
-        }
-    );
+        };
+    });
 
     /*
         MATCH ENDED
     */
-
-    if (
-        payload.matchResult
-    ) {
-
-        setMatchResult(
-            payload.matchResult
-        );
-
-        setPhase(
-            "MATCH_ENDED"
-        );
-
+    if (payload.matchResult) {
+        setMatchResult(payload.matchResult);
+        // setPhase("MATCH_ENDED");
         return;
     }
 
     /*
         INNINGS ENDED
     */
-
-    if (
-        payload.inningsResult
-    ) {
-
-        setTarget(
-            payload.inningsResult.target
-        );
-
-        setInnings(
-            2
-        );
-        console.log(innings);
-
-        setPhase(
-            "INNINGS_BREAK"
-        );
-
+    if (payload.inningsResult) {
+        setTarget(payload.inningsResult.target);
+        setInnings(payload.inningsResult.innings);
+        setPhase("INNINGS_BREAK");
         return;
     }
 
     /*
         NORMAL BALL
     */
-
-    setPhase(
-        "PLAYING"
-    );
+    setPhase("PLAYING");
 };
 
 const handleLeaveMatch = () => {
-
-    if (
-        socket
-    ) {
-
-        setPhase(
-            "MATCH_ABANDONED"
-        );
-
-        socket.disconnect();
-
-        setSocket(
-            null
-        );
-    }
-
-    navigate(
-        "/home"
+  if (socket) {
+    socket.emit(
+      "leave-match",
+      JSON.stringify({ matchId, playerId })
     );
+  }
+  setPhase("MATCH_ABANDONED");
+};
+
+const handleEnterMatch = () => {
+  if (socket) {
+    socket.emit(
+      "enter-match",
+      JSON.stringify({ matchId, playerId })
+    );
+  }
+  setPhase("WAITING");
+};
+
+const handleMatchStarts = () => {
+    setPhase("PLAYING");
 };
 
 // const handleMatchEnded = (
@@ -496,8 +555,21 @@ const handleStartSecondInnings = () => {
 };
 
     const handleMatchFull = () => {
-        setPhase("INVALID_MATCH");
+        setPhase("MATCH_FULL");
     };
+
+    const handleMatchEnded = (payload) => {
+    const { reason } = payload;
+    
+    
+    setEndReason(reason); 
+
+    if (reason !== "MATCH_COMPLETED") {
+        setPhase("MATCH_ABANDONED");
+    } else {
+        setPhase("MATCH_ENDED");
+    }
+};
 
     const handleJoinMatch = () => {
 
@@ -516,6 +588,16 @@ const handleStartSecondInnings = () => {
 );
 
     newSocket.on(
+  "rejoin-match-success",
+  (payload) => {
+    // Unwrap the match object right here in the listener
+    if (payload && payload.match) {
+      restoreMatchContext(payload.match);
+    }
+  }
+);
+
+    newSocket.on(
     "match-full",
     handleMatchFull
 );  
@@ -523,6 +605,11 @@ const handleStartSecondInnings = () => {
     newSocket.on(
     "toss-result",
     handleTossResult
+);
+
+    newSocket.on(
+    "match-starts",
+    handleMatchStarts
 );
 
     newSocket.on(
@@ -538,6 +625,11 @@ const handleStartSecondInnings = () => {
     newSocket.on(
     "ball-result",
     handleBallResult
+);
+
+    newSocket.on(
+    "match-ended",
+    handleMatchEnded
 );
 
 //     newSocket.on(
@@ -632,6 +724,8 @@ const handleStartSecondInnings = () => {
         </div>
       ) : phase === "INVALID_MATCH" || phase === "INVALID" ? (
         <InvalidMatch onReturnHome={handleReturnHome} />
+        ) : phase === "MATCH_FULL" ? (
+        <MatchFull onReturnHome={handleReturnHome} />
       ) : phase === "LOADING" ? (
         <JoinMatch onJoin={handleJoinMatch} />
       ) : phase === "WAITING" ? (
@@ -647,7 +741,7 @@ const handleStartSecondInnings = () => {
           tossWinnerId={tossWinnerId} 
           playerId={playerId} 
           battingFirstPlayerId={battingFirstPlayerId} 
-          onContinue={handleStartMatch} 
+          onContinue={handleEnterMatch} 
         />
         ) : phase === "PLAYING" ? (
         <GameBoard 
@@ -657,7 +751,7 @@ const handleStartSecondInnings = () => {
       ) : phase === "INNINGS_BREAK" ? (
         <InningsEndPopup 
           target={target} 
-          onContinue={handleStartSecondInnings} 
+          onContinue={handleEnterMatch} 
         />
       ) : phase === "MATCH_ENDED" ? (
         <MatchResultPopup 
@@ -665,13 +759,13 @@ const handleStartSecondInnings = () => {
           scoreboard={scoreboard} 
           playerId={playerId} 
           onAddFriend={handleAddFriend} 
-          onReturnHome={handleLeaveMatch} 
+          onReturnHome={handleReturnHome} 
         />
       ) : phase === "MATCH_ABANDONED" ? (
         <MatchAbandonedPopup 
           endReason={endReason} 
           onAddFriend={handleAddFriend} 
-          onReturnHome={handleLeaveMatch} 
+          onReturnHome={handleReturnHome} 
         />
       ) : null}
     </div>

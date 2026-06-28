@@ -96,13 +96,13 @@ export function MatchProvider({ children }) {
     scoreboard,
     setScoreboard
   ] = useState({
-    player1: {
+    innings1: {
       score: 0,
       wickets: 0,
       balls: 0
     },
 
-    player2: {
+    innings2: {
       score: 0,
       wickets: 0,
       balls: 0
@@ -154,19 +154,105 @@ export function MatchProvider({ children }) {
     setEndReason
   ] = useState(null);
 
+  console.log("Current Context State - Scoreboard:", scoreboard);
+
+  const restoreMatchContext = (match) => {
+    if (!match) return;
+
+    setMatchId(match.matchId);
+    setPlayer1Id(match.player1Id);
+    setPlayer2Id(match.player2Id);
+    setOvers(match.overs);
+    setWickets(match.wickets);
+    setPhase(match.phase);
+    
+    setTossWinnerId(match.tossWinnerId);
+    setBattingFirstPlayerId(match.battingFirstPlayerId);
+    
+    setInnings(match.innings);
+    setTarget(match.target);
+
+    // Map backend innings1/innings2 to frontend player1/player2
+    if (match.battingFirstPlayerId) {
+      const isPlayer1BattingFirst = match.battingFirstPlayerId === match.player1Id;
+      
+      setScoreboard({
+        innings1: {
+          score: isPlayer1BattingFirst ? match.innings1.runs : match.innings2.runs,
+          wickets: isPlayer1BattingFirst ? match.innings1.wickets : match.innings2.wickets,
+          balls: isPlayer1BattingFirst ? match.innings1.balls : match.innings2.balls,
+        },
+        innings2: {
+          score: isPlayer1BattingFirst ? match.innings2.runs : match.innings1.runs,
+          wickets: isPlayer1BattingFirst ? match.innings2.wickets : match.innings1.wickets,
+          balls: isPlayer1BattingFirst ? match.innings2.balls : match.innings1.balls,
+        },
+      });
+    }
+
+    if (match.resultHistory && match.resultHistory.length > 0) {
+      
+      let currentInnings = 1;
+      let runningScore = 0;
+      let runningWickets = 0;
+      let runningBalls = 0;
+
+      const mappedHistory = match.resultHistory.map((ball) => {
+        // 1. Reset cumulative stats if innings switches from 1 to 2
+        if (ball.innings !== currentInnings) {
+          currentInnings = ball.innings;
+          runningScore = 0;
+          runningWickets = 0;
+          runningBalls = 0;
+        }
+
+        // 2. Accumulate totals
+        runningBalls += 1;
+        runningWickets += ball.wicketsLost;
+        runningScore += ball.runs;
+        
+        if (ball.penaltyApplied === "BATTER") runningScore = Math.max(0, runningScore - 10);
+        if (ball.penaltyApplied === "BOWLER") runningScore += 10;
+
+        // 3. Figure out whose ID is currently batting
+        const isPlayer1BattingFirst = match.battingFirstPlayerId === match.player1Id;
+        const currentBatterId = ball.innings === 1 
+          ? match.battingFirstPlayerId 
+          : (isPlayer1BattingFirst ? match.player2Id : match.player1Id);
+
+        // 4. Return the exact format the frontend expects
+        return {
+          batterId: currentBatterId,
+          runs: ball.runs,
+          wicketsLost: ball.wicketsLost,
+          score: runningScore,
+          wickets: runningWickets,
+          balls: runningBalls,
+          penaltyApplied: ball.penaltyApplied
+        };
+      });
+
+      setBallHistory(mappedHistory);
+      setLastBall(mappedHistory[mappedHistory.length - 1]);
+    }
+
+    // Reset pending moves to ensure clean local UI state
+    setSelectedNumber(null);
+  };
+
   const value = {
 
     phase,
     setPhase,
 
     isLoading,
-    setIsLoading,
+    setIsLoading, // NR
 
     matchId,
     setMatchId,
 
     playerId,
-    setPlayerId,
+    setPlayerId, // NR
 
     player1Id,
     setPlayer1Id,
@@ -175,7 +261,7 @@ export function MatchProvider({ children }) {
     setPlayer2Id,
 
     socket,
-    setSocket,
+    setSocket, // NR
 
     tossWinnerId,
     setTossWinnerId,
@@ -196,10 +282,10 @@ export function MatchProvider({ children }) {
     setTarget,
 
     scoreboard,
-    setScoreboard,
+    setScoreboard, // TBB
 
     ballHistory,
-    setBallHistory,
+    setBallHistory, // TBB
 
     lastBall,
     setLastBall,
@@ -211,8 +297,12 @@ export function MatchProvider({ children }) {
     setMatchResult,
 
     endReason,
-    setEndReason
+    setEndReason,
+
+    restoreMatchContext
   };
+
+  
 
   return (
     <MatchContext.Provider value={value}>

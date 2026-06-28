@@ -7,7 +7,6 @@ const MatchResultPopup = ({ matchResult, scoreboard, playerId, onAddFriend, onRe
   
   let headerText = "Match Ended";
   let headerColorStyle = styles.drawHeader;
-  console.log(scoreboard);
 
   if (!isDraw) {
     headerText = isWinner ? "VICTORY" : "DEFEAT";
@@ -24,24 +23,26 @@ const MatchResultPopup = ({ matchResult, scoreboard, playerId, onAddFriend, onRe
         )}
 
         <div className={styles.scoreContainer}>
+          {/* Innings 1 Score Card */}
           <div className={styles.scoreCard}>
-            <span className={styles.playerLabel}>Player 1</span>
+            <span className={styles.playerLabel}>Innings 1</span>
             <div className={styles.scoreRow}>
-              <span className={styles.runs}>{scoreboard.player1.score}</span>
-              <span className={styles.wickets}>/{scoreboard.player1.wickets}</span>
+              <span className={styles.runs}>{scoreboard.innings1.score}</span>
+              <span className={styles.wickets}>/{scoreboard.innings1.wickets}</span>
             </div>
-            <span className={styles.oversText}>Balls: {scoreboard.player1.balls}</span>
+            <span className={styles.oversText}>Balls: {scoreboard.innings1.balls}</span>
           </div>
 
           <div className={styles.vsDivider}>-</div>
 
+          {/* Innings 2 Score Card */}
           <div className={styles.scoreCard}>
-            <span className={styles.playerLabel}>Player 2</span>
+            <span className={styles.playerLabel}>Innings 2</span>
             <div className={styles.scoreRow}>
-              <span className={styles.runs}>{scoreboard.player2.score}</span>
-              <span className={styles.wickets}>/{scoreboard.player2.wickets}</span>
+              <span className={styles.runs}>{scoreboard.innings2.score}</span>
+              <span className={styles.wickets}>/{scoreboard.innings2.wickets}</span>
             </div>
-            <span className={styles.oversText}>Balls: {scoreboard.player2.balls}</span>
+            <span className={styles.oversText}>Balls: {scoreboard.innings2.balls}</span>
           </div>
         </div>
 

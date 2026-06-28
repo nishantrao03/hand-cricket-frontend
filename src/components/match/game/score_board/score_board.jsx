@@ -1,11 +1,12 @@
 import React from 'react';
 import styles from './score_board.module.css';
 
-const ScoreBoard = ({ scoreboard, playerId, player1Id, player2Id, isUserBatting }) => {
-  const isPlayer1 = playerId === player1Id;
+const ScoreBoard = ({ scoreboard, playerId, battingFirstPlayerId, isUserBatting }) => {
+  // Logic: If I am the one who batted first, my data is in innings1.
+  const amIBattingFirst = playerId === battingFirstPlayerId;
   
-  const myData = isPlayer1 ? scoreboard.player1 : scoreboard.player2;
-  const oppData = isPlayer1 ? scoreboard.player2 : scoreboard.player1;
+  const myData = amIBattingFirst ? scoreboard.innings1 : scoreboard.innings2;
+  const oppData = amIBattingFirst ? scoreboard.innings2 : scoreboard.innings1;
 
   const calculateOvers = (balls) => {
     const o = Math.floor(balls / 6);
@@ -15,6 +16,7 @@ const ScoreBoard = ({ scoreboard, playerId, player1Id, player2Id, isUserBatting 
 
   return (
     <div className={styles.boardContainer}>
+      {/* "YOU" Card */}
       <div className={`${styles.playerCard} ${isUserBatting ? styles.activeCard : ''}`}>
         <h3 className={styles.playerName}>YOU</h3>
         <div className={styles.scoreRow}>
@@ -26,6 +28,7 @@ const ScoreBoard = ({ scoreboard, playerId, player1Id, player2Id, isUserBatting 
 
       <div className={styles.vsDivider}>VS</div>
 
+      {/* "OPPONENT" Card */}
       <div className={`${styles.playerCard} ${!isUserBatting ? styles.activeCard : ''}`}>
         <h3 className={styles.playerName}>OPPONENT</h3>
         <div className={styles.scoreRow}>
