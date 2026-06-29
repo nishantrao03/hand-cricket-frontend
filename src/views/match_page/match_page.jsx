@@ -621,14 +621,6 @@ const handleStartSecondInnings = () => {
 
     resetMatchState();
 
-    setOvers(matchOvers);
-    
-    setWickets(matchWickets);
-
-    console.log(overs);
-    
-    console.log(wickets);
-
     setPlayerId(userId);
     //setPlayerUserName(userName);
 
