@@ -39,11 +39,22 @@ export function MatchProvider({ children }) {
   const [playerId, setPlayerId] =
     useState(null);
 
+  const [playerUserName, setPlayerUserName] = 
+    useState(null);
+
   const [player1Id, setPlayer1Id] =
     useState(null);
 
   const [player2Id, setPlayer2Id] =
     useState(null);
+
+  const [player1UserName, setPlayer1UserName] = 
+    useState(null);
+
+  const [player2UserName, setPlayer2UserName] = 
+    useState(null);
+
+  const [playerUserNameMap, setPlayerUserNameMap] = useState({});
 
   /*
     SOCKET
@@ -155,6 +166,10 @@ export function MatchProvider({ children }) {
   ] = useState(null);
 
   console.log("Current Context State - Scoreboard:", scoreboard);
+  console.log("Player 1 Username");
+  console.log(player1UserName);
+  console.log("Player 2 Username");
+  console.log(player2UserName);
 
   const restoreMatchContext = (match) => {
     if (!match) return;
@@ -162,6 +177,12 @@ export function MatchProvider({ children }) {
     setMatchId(match.matchId);
     setPlayer1Id(match.player1Id);
     setPlayer2Id(match.player2Id);
+    setPlayer1UserName(match.player1UserName);
+    setPlayer2UserName(match.player2UserName);
+    setPlayerUserNameMap({
+  [match.player1Id]: match.player1UserName,
+  [match.player2Id]: match.player2UserName
+});
     setOvers(match.overs);
     setWickets(match.wickets);
     setPhase(match.phase);
@@ -173,22 +194,21 @@ export function MatchProvider({ children }) {
     setTarget(match.target);
 
     // Map backend innings1/innings2 to frontend player1/player2
-    if (match.battingFirstPlayerId) {
-      const isPlayer1BattingFirst = match.battingFirstPlayerId === match.player1Id;
+
       
       setScoreboard({
         innings1: {
-          score: isPlayer1BattingFirst ? match.innings1.runs : match.innings2.runs,
-          wickets: isPlayer1BattingFirst ? match.innings1.wickets : match.innings2.wickets,
-          balls: isPlayer1BattingFirst ? match.innings1.balls : match.innings2.balls,
+          score: match.innings1.runs,
+          wickets: match.innings1.wickets,
+          balls: match.innings1.balls,
         },
         innings2: {
-          score: isPlayer1BattingFirst ? match.innings2.runs : match.innings1.runs,
-          wickets: isPlayer1BattingFirst ? match.innings2.wickets : match.innings1.wickets,
-          balls: isPlayer1BattingFirst ? match.innings2.balls : match.innings1.balls,
+          score: match.innings2.runs,
+          wickets: match.innings2.wickets,
+          balls: match.innings2.balls,
         },
       });
-    }
+    
 
     if (match.resultHistory && match.resultHistory.length > 0) {
       
@@ -240,28 +260,62 @@ export function MatchProvider({ children }) {
     setSelectedNumber(null);
   };
 
+  const resetMatchState = () => {
+    setPhase("WAITING");
+    setPlayer1Id(null);
+    setPlayer2Id(null);
+    setPlayer1UserName(null);
+    setPlayer2UserName(null);
+    setPlayerUserNameMap({});
+    setTossWinnerId(null);
+    setBattingFirstPlayerId(null);
+    setInnings(1);
+    setTarget(null);
+    setScoreboard({
+      innings1: { score: 0, wickets: 0, balls: 0 },
+      innings2: { score: 0, wickets: 0, balls: 0 }
+    });
+    setBallHistory([]);
+    setLastBall(null);
+    setSelectedNumber(null);
+    setMatchResult(null);
+    setEndReason(null);
+  };
+
   const value = {
 
     phase,
     setPhase,
 
     isLoading,
-    setIsLoading, // NR
+    setIsLoading, 
 
     matchId,
     setMatchId,
 
     playerId,
-    setPlayerId, // NR
+    setPlayerId, 
+
+    playerUserName,
+    setPlayerUserName,
 
     player1Id,
     setPlayer1Id,
 
+    player1UserName,
+    setPlayer1UserName,
+
+    player2UserName,
+    setPlayer2UserName,
+
     player2Id,
     setPlayer2Id,
 
+    playerUserNameMap,
+    setPlayerUserNameMap,
+
     socket,
-    setSocket, // NR
+    setSocket, 
 
     tossWinnerId,
     setTossWinnerId,
@@ -282,10 +336,10 @@ export function MatchProvider({ children }) {
     setTarget,
 
     scoreboard,
-    setScoreboard, // TBB
+    setScoreboard, 
 
     ballHistory,
-    setBallHistory, // TBB
+    setBallHistory, 
 
     lastBall,
     setLastBall,
@@ -299,9 +353,11 @@ export function MatchProvider({ children }) {
     endReason,
     setEndReason,
 
-    restoreMatchContext
+    restoreMatchContext,
+    resetMatchState
   };
 
+  //console.log(matchResult);
   
 
   return (

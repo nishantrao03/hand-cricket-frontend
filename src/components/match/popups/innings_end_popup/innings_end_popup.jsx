@@ -15,7 +15,7 @@ const InningsEndPopup = ({ target, onContinue }) => {
           The first innings has concluded.
         </p>
         <div className={styles.targetBox}>
-          <span className={styles.targetLabel}>Target to Win</span>
+          <span className={styles.targetLabel}>Target Set for Chase</span>
           <span className={styles.targetValue}>{target}</span>
         </div>
         <button className={styles.primaryButton} onClick={onContinue}>

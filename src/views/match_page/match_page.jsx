@@ -31,7 +31,10 @@ console.log(useMatch);
 
 const MatchPage = () => {
   const { matchId } = useParams();
-  const { userId, fetchWithAuth, createAuthenticatedSocket } = useAuth();
+  const { userId, fetchWithAuth, userName, createAuthenticatedSocket } = useAuth();
+  console.log(userName);
+  const [ matchOvers, setMatchOvers ] = useState(null);
+  const [ matchWickets, setMatchWickets ] = useState(null);
   const navigate = useNavigate();
   //const [overs, setOvers] = useState("");
 
@@ -48,11 +51,23 @@ const MatchPage = () => {
     playerId,
     setPlayerId,
 
+    playerUserName,
+    setPlayerUserName,
+
     player1Id,
     setPlayer1Id,
 
+    player1UserName,
+    setPlayer1UserName,
+
+    player2UserName,
+    setPlayer2UserName,
+
     player2Id,
     setPlayer2Id,
+
+    playerUserNameMap, 
+    setPlayerUserNameMap,
 
     socket,
     setSocket,
@@ -93,7 +108,8 @@ const MatchPage = () => {
     endReason,
     setEndReason,
 
-    restoreMatchContext
+    restoreMatchContext,
+    resetMatchState
 
 } = useMatch();
 
@@ -146,6 +162,33 @@ const MatchPage = () => {
     setPlayer2Id(
         payload.player2Id
     );
+
+    setPlayer1UserName(
+        payload.player1UserName
+    );
+
+    setPlayer2UserName(
+        payload.player2UserName
+    );
+
+    setPlayerUserNameMap({
+        [payload.player1Id]: payload.player1UserName,
+        [payload.player2Id]: payload.player2UserName
+    });
+
+    if(playerId == payload.player1Id){
+        setPlayerUserName(payload.player1UserName);
+    }
+    else{
+        setPlayerUserName(payload.player2UserName);
+    }
+    console.log("player username")
+    console.log(playerUserName);
+
+    console.log("player 1 username");
+    console.log(playerUserNameMap[player1Id]);
+    console.log("player 2 username");
+    console.log(playerUserNameMap[player1Id]);
 
     setPhase(
         "TOSS"
@@ -468,7 +511,9 @@ const handleBallResult = (payload) => {
     */
     if (payload.matchResult) {
         setMatchResult(payload.matchResult);
-        // setPhase("MATCH_ENDED");
+        console.log("Match Result");
+        console.log(matchResult);
+        setPhase("MATCH_ENDED");
         return;
     }
 
@@ -563,6 +608,7 @@ const handleStartSecondInnings = () => {
     
     
     setEndReason(reason); 
+    // setSelectedNumber(null);
 
     if (reason !== "MATCH_COMPLETED") {
         setPhase("MATCH_ABANDONED");
@@ -573,7 +619,18 @@ const handleStartSecondInnings = () => {
 
     const handleJoinMatch = () => {
 
+    resetMatchState();
+
+    setOvers(matchOvers);
+    
+    setWickets(matchWickets);
+
+    console.log(overs);
+    
+    console.log(wickets);
+
     setPlayerId(userId);
+    //setPlayerUserName(userName);
 
     const newSocket = createAuthenticatedSocket(BACKEND_URL);
 
@@ -673,6 +730,8 @@ const handleStartSecondInnings = () => {
 
                     playerId: userId,
 
+                    userName: userName,
+
                     overs: overs,
 
                     wickets: wickets
@@ -742,6 +801,7 @@ const handleStartSecondInnings = () => {
           playerId={playerId} 
           battingFirstPlayerId={battingFirstPlayerId} 
           onContinue={handleEnterMatch} 
+          playerUserNameMap={playerUserNameMap}
         />
         ) : phase === "PLAYING" ? (
         <GameBoard 
@@ -759,7 +819,11 @@ const handleStartSecondInnings = () => {
           scoreboard={scoreboard} 
           playerId={playerId} 
           onAddFriend={handleAddFriend} 
-          onReturnHome={handleReturnHome} 
+          onReturnHome={handleReturnHome}
+          battingFirstPlayerId={battingFirstPlayerId}
+          playerUserNameMap={playerUserNameMap}
+          wickets={wickets}
+          overs={overs}
         />
       ) : phase === "MATCH_ABANDONED" ? (
         <MatchAbandonedPopup 

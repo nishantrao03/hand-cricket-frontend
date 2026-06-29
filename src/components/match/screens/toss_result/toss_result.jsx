@@ -1,11 +1,20 @@
 import React from 'react';
 import styles from './toss_result.module.css';
 
-const TossResult = ({ tossWinnerId, playerId, battingFirstPlayerId, onContinue }) => {
-  const isWinner = tossWinnerId === playerId;
+const TossResult = ({ 
+  tossWinnerId, 
+  playerId, 
+  battingFirstPlayerId, 
+  onContinue, 
+  playerUserNameMap 
+}) => {
+  
   const choseToBat = tossWinnerId === battingFirstPlayerId;
   
-  const winnerText = isWinner ? "You" : "Opponent";
+  const tossWinnerUserName = playerUserNameMap[tossWinnerId];
+
+  
+  
   const choiceText = choseToBat ? "BAT" : "BOWL";
 
   return (
@@ -17,7 +26,7 @@ const TossResult = ({ tossWinnerId, playerId, battingFirstPlayerId, onContinue }
       </div>
       <h1 className={styles.title}>Toss Decided</h1>
       <p className={styles.subtitle}>
-        <span className={styles.highlight}>{winnerText}</span> won the toss and elected to <span className={styles.highlight}>{choiceText}</span> first.
+        <span className={styles.highlight}>{tossWinnerUserName}</span> won the toss and elected to <span className={styles.highlight}>{choiceText}</span> first.
       </p>
       <button className={styles.primaryButton} onClick={onContinue}>
         Continue to Match

@@ -11,8 +11,7 @@ import { useMatch } from '../../../../context/MatchContext';
 const GameBoard = ({ onNumberSelect, onLeave }) => {
   const {
     playerId,
-    player1Id,
-    player2Id,
+    playerUserNameMap,
     battingFirstPlayerId,
     innings,
     target,
@@ -22,6 +21,8 @@ const GameBoard = ({ onNumberSelect, onLeave }) => {
     selectedNumber
   } = useMatch();
 
+  console.log(selectedNumber);
+
   /* Determine batting status */
   const isUserBattingFirst = playerId === battingFirstPlayerId;
   const isUserBatting = innings === 1 ? isUserBattingFirst : !isUserBattingFirst;
@@ -29,33 +30,34 @@ const GameBoard = ({ onNumberSelect, onLeave }) => {
   return (
     <div className={styles.boardWrapper}>
       <div className={styles.headerArea}>
-        <div className={styles.spacer}></div> {/* For flex centering */}
+        <div className={styles.spacer}></div>
         <h2 className={styles.boardTitle}>AutoM8 Pitch</h2>
         <LeaveMatchButton onLeave={onLeave} />
       </div>
 
       <div className={styles.playArea}>
         <WaitingOverlay active={selectedNumber !== null} />
-        
-        <MatchInfo 
-          innings={innings} 
-          target={target} 
-          isUserBatting={isUserBatting} 
+
+        <MatchInfo
+          innings={innings}
+          target={target}
+          isUserBatting={isUserBatting}
           overs={overs}
           lastBall={lastBall}
+          playerId={playerId}
+          playerUserNameMap={playerUserNameMap}
         />
 
-        <ScoreBoard 
-          scoreboard={scoreboard} 
-          playerId={playerId} 
-          player1Id={player1Id} 
-          player2Id={player2Id} 
-          isUserBatting={isUserBatting}
+        <ScoreBoard
+          scoreboard={scoreboard}
+          battingFirstPlayerId={battingFirstPlayerId}
+          innings={innings}
+          playerUserNameMap={playerUserNameMap}
         />
 
-        <NumberSelector 
-          onSelect={onNumberSelect} 
-          disabled={selectedNumber !== null} 
+        <NumberSelector
+          onSelect={onNumberSelect}
+          disabled={selectedNumber !== null}
           isUserBatting={isUserBatting}
         />
       </div>
