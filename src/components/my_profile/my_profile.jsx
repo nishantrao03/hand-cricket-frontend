@@ -8,6 +8,7 @@ const MyProfilePopup = ({ user, onClose, onSuccess }) => {
     console.log(user);
 
     const [formData, setFormData] = useState({
+        username: user.username || '',
         country: user.country || '',
         favoriteTeam: user.favoriteTeam || '',
         discordUsername: user.discordUsername || '',
@@ -20,6 +21,7 @@ const MyProfilePopup = ({ user, onClose, onSuccess }) => {
 
     /* Determine if any field has been modified */
     const isDirty = 
+        formData.username !== (user.username || '') ||
         formData.country !== (user.country || '') ||
         formData.favoriteTeam !== (user.favoriteTeam || '') ||
         formData.discordUsername !== (user.discordUsername || '') ||
@@ -77,6 +79,11 @@ const MyProfilePopup = ({ user, onClose, onSuccess }) => {
                 <div className={styles.content}>
                     {error && <div className={styles.errorBox}>{error}</div>}
                     
+                    <div className={styles.formGroup}>
+                        <label className={styles.label}>Username</label>
+                        <input type="text" name="username" className={styles.input} value={formData.username} onChange={handleChange} placeholder="Enter your username" />
+                    </div>
+
                     <div className={styles.formGroup}>
                         <label className={styles.label}>Country</label>
                         <input type="text" name="country" className={styles.input} value={formData.country} onChange={handleChange} placeholder="e.g. India" />

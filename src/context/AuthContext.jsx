@@ -1,141 +1,3 @@
-// import React, { useContext, useState, useEffect } from "react";
-// import { auth } from "../firebase";
-// import { 
-//   createUserWithEmailAndPassword,
-//   signInWithEmailAndPassword,
-//   signOut,
-//   onAuthStateChanged
-// } from "firebase/auth";
-
-// const AuthContext = React.createContext();
-
-// export function useAuth() {
-//   return useContext(AuthContext);
-// }
-
-// export function AuthProvider({ children }) {
-//   const [currentUser, setCurrentUser] = useState();
-//   const [loading, setLoading] = useState(true);
-//   const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-//   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-
-//   function signup(email, password) {
-//     return createUserWithEmailAndPassword(auth, email, password);
-//   }
-
-//   function login(email, password) {
-//     return signInWithEmailAndPassword(auth, email, password);
-//   }
-
-//   function logout() {
-//     return signOut(auth);
-//   }
-
-//   async function callBackendLogin(firebaseToken) {
-//     try {
-//       await fetch(`${BACKEND_URL}/login`, {
-//         method: "POST",
-//         credentials: "include", // ensures cookies are stored
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({ firebaseToken }),
-//       });
-//       console.log("Successfully called backend /login");
-//     } catch (err) {
-//       console.error("Error calling backend /login:", err);
-//     }
-//   }
-
-//   useEffect(() => {
-//     const unsubscribe = onAuthStateChanged(auth, (user) => {
-//       // If no Firebase user, clear state immediately
-//       if (!user) {
-//         setCurrentUser(null);
-//         setIsAuthenticated(false);
-//         setLoading(false);
-//         return;
-//       }
-
-//       // If there is a firebase user, validate access token with backend
-//       (async () => {
-//         try {
-//           // Check access token validity
-//           const accessResp = await fetch(`${BACKEND_URL}/access-token`, {
-//             method: "GET",
-//             credentials: "include",
-//           });
-
-//           if (accessResp.ok) {
-//             // Access token valid
-//             console.log("Access token valid");
-//             setCurrentUser(user);
-//             setIsAuthenticated(true);
-//             setLoading(false);
-//             return;
-//           }
-
-//           // If access token invalid/expired, try refreshing
-//           if (accessResp.status === 401 || accessResp.status === 403) {
-//             const refreshResp = await fetch(`${BACKEND_URL}/refresh-token`, {
-//               method: "POST",
-//               credentials: "include",
-//             });
-
-//             if (refreshResp.ok) {
-//               // Refresh succeeded — consider user still signed in
-//               console.log("Access token refreshed");
-//               setCurrentUser(user);
-//               setIsAuthenticated(true);
-//               setLoading(false);
-//               return;
-//             }
-
-//             // Refresh failed -> clear auth state
-//             await logout().catch(() => {}); // ensure firebase is signed out too
-//             console.log("Refresh token invalid, logged out");
-//             setCurrentUser(null);
-//             setisAuthenticated(false);
-//             setLoading(false);
-//             return;
-//           }
-
-//           // Any other response: treat as unauthenticated
-//           await logout().catch(() => {});
-//           setCurrentUser(null);
-//           setIsAuthenticated(false);
-//         } catch (err) {
-//           // Network or unexpected error -> clear auth to be safe
-//           await logout().catch(() => {});
-//           setCurrentUser(null);
-//           setIsAuthenticated(false);
-//         } finally {
-//           setLoading(false);
-//         }
-//       })();
-//     });
-
-//     return unsubscribe;
-//   }, []);
-
-//   const value = {
-//     currentUser,
-//     isAuthenticated,
-//     login,
-//     signup,
-//     logout,
-//     callBackendLogin,
-//   };
-
-//   return (
-//     <AuthContext.Provider value={value}>
-//       {!loading && children}
-//     </AuthContext.Provider>
-//   );
-// }
-
-
 import React, { useContext, useState, useEffect } from "react";
 import { auth } from "../firebase";
 import { 
@@ -162,6 +24,7 @@ export function AuthProvider({ children }) {
   // const [userId, setUserId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState(null);
 
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -176,6 +39,7 @@ export function AuthProvider({ children }) {
   function logout() {
     localStorage.removeItem("userId");
     setUserId(null);
+    setUser(null);
     return signOut(auth);
   }
 
@@ -276,6 +140,20 @@ export function AuthProvider({ children }) {
       console.error("Error calling backend /login:", err);
     }
   }
+
+  async function upsertUser() {
+  try {
+    const response = await fetch(`${BACKEND_URL}/api/upsert-user`, {
+      method: "GET",
+      credentials: "include",
+    });
+    return await response.json();
+  } catch (err) {
+    console.error("upsertUser error:", err);
+    return { success: false, data: null, error: err.message || String(err) };
+  }
+}
+
   /*
   useEffect(() => {
     console.log("Auth state changed, userId:", userId);
@@ -399,6 +277,14 @@ export function AuthProvider({ children }) {
 
         if (isAccessValid) {
           console.log("Access token valid");
+
+          const result = await upsertUser();
+        if (result.success) {
+          console.log(result);
+          setUser(result.data);
+          setUserName(result.data.username);
+        }
+
           setIsAuthenticated(true);
           setLoading(false);
           return;
@@ -410,6 +296,14 @@ export function AuthProvider({ children }) {
 
         if (isRefreshValid) {
           console.log("Access token refreshed successfully");
+
+          const result = await upsertUser();
+        if (result.success) {
+          console.log(result);
+          setUser(result.data);
+          setUserName(result.data.username);
+        }
+
           setIsAuthenticated(true);
           setLoading(false);
           return;
@@ -418,11 +312,13 @@ export function AuthProvider({ children }) {
         console.log("Refresh token invalid — logging out");
         await logout().catch(() => {});
         setUserId(null);
+        setUser(null);
         setIsAuthenticated(false);
       } catch (err) {
         console.error("Auth validation error:", err);
         await logout().catch(() => {});
         setUserId(null);
+        setUser(null);
         setIsAuthenticated(false);
       } finally {
         setLoading(false);
@@ -480,6 +376,7 @@ export function AuthProvider({ children }) {
         } else {
           console.error('Refresh token is invalid or expired. Session terminated.');
           setUserId(null);
+          setUser(null);
           setIsAuthenticated(false);
         }
       } catch (error) {
@@ -512,6 +409,7 @@ export function AuthProvider({ children }) {
           } else {
             console.error("Refresh token is invalid or expired. Session terminated.");
             setUserId(null);
+            setUser(null);
             setIsAuthenticated(false);
           }
         } catch (refreshErr) {
@@ -526,6 +424,8 @@ export function AuthProvider({ children }) {
   const value = {
     userId,
     setUserId,
+    user,
+    setUser,
     isAuthenticated,
     login,
     signup,

@@ -31,7 +31,7 @@ const GameBoard = ({ onNumberSelect, onLeave }) => {
     <div className={styles.boardWrapper}>
       <div className={styles.headerArea}>
         <div className={styles.spacer}></div>
-        <h2 className={styles.boardTitle}>AutoM8 Pitch</h2>
+        <h2 className={styles.boardTitle}>Hand Cricket Pitch</h2>
         <LeaveMatchButton onLeave={onLeave} />
       </div>
 

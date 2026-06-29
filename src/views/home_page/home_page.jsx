@@ -3,7 +3,6 @@ import styles from './home_page.module.css';
 import ButtonHomePage from '../../components/button_home_page/button_home_page.jsx';
 import TopMenuOptions from '../../components/top_menu_options_home_page/top_menu_options_home_page.jsx';
 import { useAuth } from '../../context/AuthContext.jsx';
-import UserRegisterPopup from '../../components/user_register_popup/user_register_popup.jsx';
 import PlayOfflinePopup from '../../components/play_offline_popup/play_offline_popup.jsx';
 import { useNavigate } from 'react-router-dom';
 import FriendRequestsPopup from '../../components/friend_requests_popup/friend_requests_popup.jsx';
@@ -11,7 +10,6 @@ import MyProfilePopup from '../../components/my_profile/my_profile.jsx';
 
 const HomePage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showRegisterPopup, setShowRegisterPopup] = useState(false);
   const [isDataLoading, setIsDataLoading] = useState(true);
   const [showOfflinePopup, setShowOfflinePopup] = useState(false);
   const [showFriendRequestsPopup, setShowFriendRequestsPopup] = useState(false);
@@ -22,45 +20,20 @@ const HomePage = () => {
   /* Initialize the navigation hook for routing */
   const navigate = useNavigate();
 
-  const { userId, setUserName, userName, handleLogout, fetchWithAuth } = useAuth();
+  const { userId, setUserName, userName, handleLogout, user } = useAuth();
   
-  /* Retrieve the backend base URL from environment variables */
-  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-
-  /* Fetch user profile data upon component mount or when userId becomes available */
+  /* Monitor the context user object and update local state accordingly */
   useEffect(() => {
-    if (!userId) return;
-
-    const fetchUserData = async () => {
-      try {
-        const response = await fetchWithAuth(
-          `${BACKEND_URL}/api/fetch-user`,
-          {
-            credentials: 'include'
-          }
-        );
-        const data = await response.json();
-        console.log("Fetched User Data:", data);
-
-        /* Check if user exists or if registration is needed */
-        if (data.success && data.data) {
-          setUserName(data.data.username);
-          setUserData(data.data);
-          console.log(userName);
-        } else if (data.success === false && data.error === 'User not found') {
-          setShowRegisterPopup(true);
-        }
-        
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      } finally {
-        /* Ensure loading state is disabled after fetch completes or fails */
-        setIsDataLoading(false);
-      }
-    };
-
-    fetchUserData();
-  }, [userId, BACKEND_URL, setUserName]);
+    if (user) {
+      setUserData(user);
+      // if (user.username) {
+      //   setUserName(user.username);
+      // }
+      setIsDataLoading(false);
+    } else {
+      setIsDataLoading(true);
+    }
+  }, [user, setUserName]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -112,9 +85,6 @@ const HomePage = () => {
           {isMenuOpen && <TopMenuOptions onOptionClick={handleMenuOptionClick} />}
         </div>
       </header>
-
-      {/* Forced Registration Popup */}
-      {showRegisterPopup && <UserRegisterPopup userId={userId} onSuccess={() => setShowRegisterPopup(false)} />}
 
       {/* Play Offline Share Popup */}
       {showOfflinePopup && (

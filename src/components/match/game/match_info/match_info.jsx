@@ -24,6 +24,9 @@ const MatchInfo = ({
     ? opponentUserName
     : playerUserName;
 
+  console.log("Last ball");
+  console.log(lastBall);
+
   return (
     <div className={styles.infoContainer}>
       <div className={styles.topRow}>
@@ -42,12 +45,19 @@ const MatchInfo = ({
 
       {lastBall && (
         <div className={styles.lastBallInfo}>
-          Last Ball: Batter [{lastBall.batterNumber}] vs Bowler [{lastBall.bowlerNumber}]
+          Last Ball{/* Last Ball: Batter [{lastBall.batterNumber}] vs Bowler [{lastBall.bowlerNumber}] */}
           <span className={styles.resultArrow}> ➔ </span>
+          
+          {/* Display runs or wickets based on the ball outcome */}
           {lastBall.wicketsLost > 0 ? (
-            <span className={styles.wicketText}>WICKET!</span>
+            <span className={styles.wicketText}>{lastBall.wicketsLost} Wicket</span>
           ) : (
-            <span className={styles.runText}>+{lastBall.score || 0} Runs</span>
+            <span className={styles.runText}>+{lastBall.runs || 0} Runs</span>
+          )}
+
+          {/* Conditionally display penalty if one was applied */}
+          {lastBall.penaltyApplied && (
+            <span className={styles.penaltyText}> | Penalty: {lastBall.penaltyApplied}</span>
           )}
         </div>
       )}

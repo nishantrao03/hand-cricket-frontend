@@ -38,6 +38,7 @@
   border: 1px solid #233554;
   border-radius: 16px;
   padding: 2rem;
+  box-sizing: border-box;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(100, 255, 218, 0.05);
   backdrop-filter: blur(10px);
 }
