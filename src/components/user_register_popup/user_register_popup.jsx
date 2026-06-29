@@ -99,18 +99,18 @@ const UserRegisterPopup = ({ userId, onSuccess }) => {
               <input
                 type="text"
                 name="country"
-                placeholder="Optional"
+                placeholder=""
                 className={styles.inputField}
                 value={formData.country}
                 onChange={handleChange}
               />
             </div>
             <div className={styles.inputGroup}>
-              <label className={styles.label}>Favourite Team</label>
+              <label className={styles.label}>Favourite Cricket Team</label>
               <input
                 type="text"
                 name="favouriteTeam"
-                placeholder="e.g., Mumbai Indians"
+                placeholder=""
                 className={styles.inputField}
                 value={formData.favouriteTeam}
                 onChange={handleChange}
@@ -123,7 +123,7 @@ const UserRegisterPopup = ({ userId, onSuccess }) => {
             <input
               type="text"
               name="discordUsername"
-              placeholder="user#1234 (Optional)"
+              placeholder="user#1234"
               className={styles.inputField}
               value={formData.discordUsername}
               onChange={handleChange}
@@ -134,7 +134,7 @@ const UserRegisterPopup = ({ userId, onSuccess }) => {
             <label className={styles.label}>Bio</label>
             <textarea
               name="bio"
-              placeholder="Tell us about your playstyle... (Optional)"
+              placeholder="Tell us about your playstyle..."
               className={`${styles.inputField} ${styles.textArea}`}
               value={formData.bio}
               onChange={handleChange}
