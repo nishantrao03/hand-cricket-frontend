@@ -119,28 +119,42 @@ const HomePage = () => {
             <p className={styles.loadingText}>Fetching Player Data...</p>
           </div>
         ) : (
-          <div className={styles.buttonStack}>
-            {/* <ButtonHomePage 
-              label="Play Online" 
-              onClick={() => handleMainMenuClick('Play Online')} 
-            /> */}
-            <ButtonHomePage 
-              label="Play A Match" 
-              onClick={() => handleMainMenuClick('Play Offline')} 
-            />
-            <ButtonHomePage 
-              label="Match Rules" 
-              onClick={() => handleMainMenuClick('Match Rules')} 
-            />
-            <ButtonHomePage 
-              label="Match History" 
-              onClick={() => handleMainMenuClick('Match History')} 
-            />
-            <ButtonHomePage 
-              label="My Friends" 
-              onClick={() => handleMainMenuClick('My Friends')} 
-            />
-          </div>
+          <>
+            {/* Hero Text Section */}
+            <div className={styles.heroSection}>
+              <h1 className={styles.heroTitle}>Hand Cricket</h1>
+              <p className={styles.heroSubtitle}>
+                {"Where Every Number Counts".split("").map((char, index) => (
+                  <span 
+                    key={index} 
+                    className={styles.animatedChar} 
+                    style={{ animationDelay: `${index * 0.05}s` }}
+                  >
+                    {char === " " ? "\u00A0" : char}
+                  </span>
+                ))}
+              </p>
+            </div>
+
+            <div className={styles.buttonStack}>
+              <ButtonHomePage 
+                label="Play A Match" 
+                onClick={() => handleMainMenuClick('Play Offline')} 
+              />
+              <ButtonHomePage 
+                label="Match Rules" 
+                onClick={() => handleMainMenuClick('Match Rules')} 
+              />
+              <ButtonHomePage 
+                label="Match History" 
+                onClick={() => handleMainMenuClick('Match History')} 
+              />
+              <ButtonHomePage 
+                label="My Friends" 
+                onClick={() => handleMainMenuClick('My Friends')} 
+              />
+            </div>
+          </>
         )}
       </main>
     </div>
