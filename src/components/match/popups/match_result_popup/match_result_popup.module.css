@@ -91,7 +91,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex: 1;
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .playerLabel {
@@ -101,6 +102,11 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-bottom: 0.5rem;
+  display: block;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .scoreRow {
@@ -177,4 +183,24 @@
 
 .primaryButton:active, .secondaryButton:active {
   transform: translateY(1px);
+}
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 480px) {
+  .card {
+    padding: 2rem 1.5rem;
+  }
+  .scoreContainer {
+    padding: 1rem;
+    gap: 0.5rem;
+  }
+  .runs {
+    font-size: 2rem;
+  }
+  .wickets {
+    font-size: 1rem;
+  }
+  .title {
+    font-size: 2rem;
+  }
 }

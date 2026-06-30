@@ -42,3 +42,9 @@
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(100, 255, 218, 0.05);
   backdrop-filter: blur(10px);
 }
+
+@media (max-width: 480px) {
+  .playArea {
+    padding: 1rem;
+  }
+}

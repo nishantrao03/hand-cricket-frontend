@@ -71,7 +71,7 @@ const HomePage = () => {
     <div className={styles.container}>
       {/* Top Header Section */}
       <header className={styles.header}>
-        <div className={styles.logo}>Hand Cricket</div>
+        <img src="/favicon.png" alt="Hand Cricket" className={styles.logoImage} />
         
         <div className={styles.menuWrapper}>
           {userName && <span className={styles.greetingText}>{userName}</span>}

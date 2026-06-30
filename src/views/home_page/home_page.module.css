@@ -33,6 +33,12 @@
   letter-spacing: 2px;
 }
 
+.logoImage {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
 .menuWrapper {
   position: relative;
   display: flex;
@@ -101,8 +107,8 @@
     padding: 1rem;
   }
   
-  .logo {
-    font-size: 1.2rem;
+  .logoImage {
+    height: 32px;
   }
   
   .buttonStack {

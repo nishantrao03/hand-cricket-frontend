@@ -8,11 +8,13 @@
 }
 
 .playerCard {
-  flex: 1;
+  flex: 1 1 0;
   background: rgba(10, 25, 47, 0.6);
   border: 1px solid #233554;
   border-radius: 12px;
   padding: 1.5rem;
+  box-sizing: border-box;
+  min-width: 0; /* Allows text truncation inside flex children */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -32,6 +34,10 @@
   margin: 0 0 1rem 0;
   text-transform: uppercase;
   letter-spacing: 2px;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .scoreRow {
@@ -65,4 +71,28 @@
   font-weight: 800;
   color: #495670;
   font-style: italic;
+}
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 480px) {
+  .boardContainer {
+    gap: 0.5rem;
+  }
+  .playerCard {
+    padding: 0.75rem 0.5rem;
+  }
+  .playerName {
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+  }
+  .runs {
+    font-size: 2rem;
+  }
+  .wickets {
+    font-size: 1.1rem;
+  }
+  .vsDivider {
+    font-size: 1rem;
+  }
 }
