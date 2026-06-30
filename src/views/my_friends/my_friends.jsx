@@ -48,7 +48,6 @@ const MyFriends = () => {
                             username: friendProfile.username,
                             wins: friendProfile.matchesWon || 0,
                             matches: friendProfile.matchesPlayed || 0,
-                            lastSeen: "Offline" // Fallback since Prisma schema doesn't have lastSeen
                         };
                     });
                     
@@ -142,7 +141,6 @@ const MyFriends = () => {
 
                                         <div className={styles.friendIdentity}>
                                             <h3 className={styles.friendName}>{friend.username}</h3>
-                                            <p className={styles.lastSeen}>{friend.lastSeen}</p>
                                         </div>
                                     </div>
 
